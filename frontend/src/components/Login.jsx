@@ -1,6 +1,7 @@
 import { FormControl, InputLabel, Input } from "@mui/material";
 import { useState } from "react";
 import { Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -27,7 +28,9 @@ function Login() {
         <InputLabel>Password</InputLabel>
         <Input id="password" onChange={(e) => setPassword(e.target.value)} />
       </FormControl>
-      <button onClick={submitHandler}>Iniciar sesión</button>
+      <Link to="/map">
+        <button onClick={submitHandler}>Iniciar sesión</button>
+      </Link>
       <button onClick={submitHandler}>Iniciar sesión como invitado</button>
     </Box>
   );
