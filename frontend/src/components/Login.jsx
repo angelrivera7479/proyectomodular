@@ -31,7 +31,9 @@ function Login() {
       <Link to="/map">
         <button onClick={submitHandler}>Iniciar sesión</button>
       </Link>
-      <button onClick={submitHandler}>Iniciar sesión como invitado</button>
+      <Link to="/map">
+        <button onClick={submitHandler}>Iniciar sesión como invitado</button>
+      </Link>
     </Box>
   );
 }

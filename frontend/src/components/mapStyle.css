@@ -1,0 +1,16 @@
+.mysvg {
+  width: 80%;
+  stroke: #666;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.location {
+  fill: #a1d99b;
+  cursor: pointer;
+}
+.location:focus,
+.location:hover {
+  fill: crimson;
+  outline: 0;
+}
