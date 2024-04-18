@@ -1,59 +1,55 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
+import { useState } from "react";
+import "./styles/signinpage.css";
 
 function SigninPage() {
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const [active, setActive] = useState(1);
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          p: 1,
-          m: 1,
-          //bgcolor: "lightblue",
-          borderRadius: 1,
-          border: "3px solid gray",
-          width: 800,
-          height: 500,
-        }}
-      >
-        <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-                centered
-              >
-                <Tab label="Iniciar Sesion" value="1" />
-                <Tab label="Registrarse" value="2" />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              <Login />
-            </TabPanel>
-            <TabPanel value="2">
-              <Signup />
-            </TabPanel>
-          </TabContext>
-        </Box>
-      </Box>
+      <div className="container-signin">
+        <button type="button" onClick={() => setActive(1)}>
+          Login
+        </button>
+        <button type="button" onClick={() => setActive(2)}>
+          Signup
+        </button>
+
+        {active === 1 ? <Login /> : active === 2 ? <Signup /> : null}
+      </div>
     </>
   );
 }
 
 export default SigninPage;
+
+/*
+import { useNavigate, Outlet, Link } from "react-router-dom";
+
+//Ejecutar useNavigate() nos regresara una funcion para direccionar a la ruta deseada
+//Esto de la manera navigate("<<ruta>>")
+//Se puede redireccionar de forma programada con la funcion
+
+//Outlet nos permite remplazar los componentes hijos
+
+export default function Dashboard() {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/");
+  };
+
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <button onClick={handleClick}>button</button>
+      <br />
+      <Link to="opcion1">Link a opcion1</Link>;
+      <br />
+      <Link to="opcion2">Link a opcion2</Link>;
+      <Outlet />
+    </div>
+  );
+}
+ */

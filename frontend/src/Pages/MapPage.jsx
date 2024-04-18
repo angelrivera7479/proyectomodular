@@ -1,17 +1,12 @@
 import Mexico from "@svg-maps/mexico";
 import { SVGMap } from "react-svg-map";
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
+import "./styles/mapStyle.css";
+import "./styles/mappage.css";
+
 import { useState } from "react";
-import "../components/mapStyle.css";
-import InfoCard from "../components/InfoCard";
+import InfoCard from "../components/Infocard";
 import Estados from "../utils/Estados";
+import Chat from "../components/Chat";
 
 export default function MapPage() {
   const [estado, setEstado] = useState();
@@ -22,58 +17,14 @@ export default function MapPage() {
     alert("Username: " + input);
   };
 
-  const callThisFromChildComponent = () => {
+  const callback = () => {
     setShowInfoCard(false);
   };
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          backgroundColor: "lightblue",
-          padding: "10px",
-        }}
-      >
-        <Box
-          sx={{
-            width: "35%",
-            backgroundColor: "white",
-            borderRadius: "10px",
-            padding: "10px",
-          }}
-        >
-          <FormControl
-            sx={{
-              width: "70%",
-            }}
-          >
-            <InputLabel>Escribe aqui</InputLabel>
-            <Input id="input" onChange={(e) => setInput(e.target.value)} />
-          </FormControl>
-          <Button
-            sx={{
-              width: "30%",
-              backgroundColor: "steelblue",
-              color: "white",
-              "&:hover": {
-                backgroundColor: "white",
-                color: "steelblue",
-              },
-            }}
-            onClick={submitHandler}
-          >
-            Enviar
-          </Button>
-          <Typography>
-            ¡Hola Soy tu ChatBot! Puedo ayudarte a encontrar los mejores
-            (Lugares, Playas, Lagos) de México según tus gustos. Puedes probar
-            con 'Dime una playa cálida' o 'Dime que lugar cerca del centro de
-            Jalisco puedo visitar'
-          </Typography>
-        </Box>
+      <div className="container-map">
+        <Chat />
         <SVGMap
           locationClassName="location"
           className="mysvg"
@@ -88,10 +39,8 @@ export default function MapPage() {
           }}
           map={Mexico}
         />
-        {showInfoCard ? (
-          <InfoCard estado={estado} callback={callThisFromChildComponent} />
-        ) : null}
-      </Box>
+        {showInfoCard ? <InfoCard estado={estado} callback={callback} /> : null}
+      </div>
     </>
   );
 }

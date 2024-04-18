@@ -1,0 +1,10 @@
+.container-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: lightslategray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 1rem 0rem 1rem;
+}

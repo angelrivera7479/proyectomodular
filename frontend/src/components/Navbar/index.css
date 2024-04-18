@@ -1,0 +1,23 @@
+.container {
+  width: 25%;
+  display: grid;
+  height: 100%;
+}
+.container > a > button {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #4432a8;
+  transition: 500ms;
+  padding: 0.5rem;
+  color: lightgray;
+}
+.container > a > button:hover {
+  color: #4432a8;
+  background-color: lightgray;
+  transition: 500ms;
+}
+.container > a > button:active {
+  color: lightgray;
+  background-color: #4432a8;
+}
