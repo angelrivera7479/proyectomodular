@@ -1,13 +1,14 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../components/adminComponents/Navbar";
 import { Outlet } from "react-router-dom";
-
-const drawerWidth = 240;
+import "./styles/adminpage.css";
 
 export default function AdminPage() {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      <div className="container">
+        <Navbar />
+        <Outlet />
+      </div>
     </>
   );
 }

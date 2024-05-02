@@ -1,4 +1,5 @@
 import User from "./models/User.js";
+import obtenerRespuesta from "./SistemaExperto/script.js";
 
 export default (io) => {
   io.on("connection", (socket) => {
@@ -39,6 +40,12 @@ export default (io) => {
       } else {
         console.log("El username ya existe, escoge otro");
       }
+    });
+
+    socket.on("client_chat", (data) => {
+      console.log(data);
+      const respuesta = obtenerRespuesta(data);
+      socket.emit("server_chat", respuesta);
     });
 
     socket.on("send_user", async ({ username, password }) => {

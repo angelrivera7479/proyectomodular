@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+* {
+  /* box-sizing: border-box; */
+}
 
 body {
   font-family: "Roboto", sans-serif;
@@ -14,4 +17,25 @@ body {
 #root {
   width: 100%;
   height: 100%;
+}
+button {
+  border: none;
+  height: 2rem;
+  width: 100px;
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+  color: lightgray;
+  background-color: lightcoral;
+  transition: 500ms;
+  padding: 0.5rem;
+}
+
+button:hover {
+  color: lightcoral;
+  background-color: lightgray;
+  transition: 500ms;
+}
+button:active {
+  color: lightgray;
+  background-color: lightcoral;
 }
