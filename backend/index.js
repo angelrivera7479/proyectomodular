@@ -12,14 +12,12 @@ import connectDB from "./config/db.js";
 connectDB();
 
 const app = express();
-
 app.use(cors());
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
     origin: "https://proyecto-modular-client.vercel.app",
     methods: ["GET", "POST"],
-    credentials: true,
   },
 });
 
