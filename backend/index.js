@@ -20,6 +20,8 @@ const io = new SocketServer(server, {
   },
 });
 
+//Son los eventos del socket
+//Es donde esta el io.on("connection", (socket) => {}
 sockets(io);
 
 const PORT = process.env.PORT;
