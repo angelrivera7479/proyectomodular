@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import { SiteData } from "./auth/SiteWrapper";
@@ -6,8 +5,6 @@ import { SiteData } from "./auth/SiteWrapper";
 import AdminPage from "./Pages/AdminPage";
 import MapPage from "./Pages/MapPage";
 import SigninPage from "./Pages/SigninPage";
-
-import TopBar from "./components/Topbar";
 
 import ActiveChats from "./components/adminComponents/ActiveChats";
 import AddUsers from "./components/adminComponents/AddUsers";
@@ -20,7 +17,6 @@ function App() {
   return (
     <>
       <Router>
-        <TopBar />
         <Routes>
           <Route index element={<MapPage />} />
           <Route path={"/signin"} element={<SigninPage />} />

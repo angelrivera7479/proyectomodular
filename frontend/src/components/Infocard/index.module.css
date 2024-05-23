@@ -1,27 +1,26 @@
-.container-card {
-  width: 250px;
-  height: 350px;
+.containerCard {
+  width: 60%;
+  height: 100%;
   background-color: white;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   position: absolute;
+  right: 0;
+  margin: 0.5rem;
   padding: 1rem;
-  top: 100px;
-  right: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.container-card > button {
+.containerCard > button {
   background-color: white;
 }
 
-.container-card > img {
-  border-radius: 1rem;
-  margin: 1rem;
+.containerCard > img {
+  border-radius: 0.5rem;
+  margin: 0.5rem;
 }
 
 .description {
-  overflow: hidden;
   overflow-y: scroll;
   text-align: justify;
 }

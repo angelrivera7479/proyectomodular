@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { SiteData } from "../../auth/SiteWrapper";
 import { useNavigate } from "react-router-dom";
+import styles from "./index.module.css";
 
 function Login() {
   const { login } = SiteData();
@@ -19,6 +20,7 @@ function Login() {
   };
   return (
     <>
+      Login
       <input
         placeholder="Username"
         type="text"

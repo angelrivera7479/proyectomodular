@@ -1,6 +1,7 @@
 .mysvg {
-  width: 80%;
-  stroke: #666;
+  width: 100%;
+  /* stroke es el contorno */
+  stroke: darkslategray;
   stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round;

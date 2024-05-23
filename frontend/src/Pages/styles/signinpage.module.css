@@ -1,0 +1,67 @@
+.mainContainer {
+  height: 100%;
+  width: 100%;
+  background-color: lightsteelblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 1 2 3 4 5 6*/
+  /* 1 2 3 4 5 6*/
+  /* 1 2 3 4 5 6*/
+  /* 1 2 3 4 5 6*/
+  /* 1 2 3 4 5 6*/
+}
+.logo {
+  /* grid-column: 2/5;
+  grid-row: 1/2; */
+  width: 40%;
+  height: auto;
+}
+.contentContainer {
+  background-color: lightslategrey;
+  border-radius: 0.5rem;
+  width: 40%;
+  height: 60%;
+  padding: 1rem;
+  display: inherit;
+  flex-direction: inherit;
+  align-items: inherit;
+  /* grid-column: 2/5;
+  grid-row: 2/5; */
+}
+.activeForms {
+  display: inherit;
+  align-items: center;
+
+  padding: 1rem;
+  width: 100%;
+}
+
+.formContainer {
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.button {
+  border: none;
+  height: auto;
+  width: 50%;
+  font-size: 1.5rem;
+
+  border-radius: 0.5rem;
+  color: lightgray;
+  background-color: blue;
+  transition: 500ms;
+  padding: 0.5rem;
+}
+
+.button:hover {
+  color: blue;
+  background-color: lightgray;
+  transition: 500ms;
+}
+.button:active {
+  color: lightgray;
+  background-color: blue;
+}

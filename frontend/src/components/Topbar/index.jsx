@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { SiteData } from "../../auth/SiteWrapper";
-import "./index.css";
+import styles from "./index.module.css";
 
 function Topbar() {
   const { user, logout } = SiteData();
   return (
-    <div className="container-topbar">
+    <div className={styles.containerTopbar}>
       <p>Proyecto Modular</p>
       {user ? (
         <>

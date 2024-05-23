@@ -20,6 +20,7 @@ function Signup() {
 
   return (
     <>
+      Signup
       <input
         placeholder="Username"
         type="text"

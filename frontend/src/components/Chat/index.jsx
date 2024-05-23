@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
-import "./index.css";
+import styles from "./index.module.css";
 import { SiteData } from "../../auth/SiteWrapper";
+import { MapPageData } from "../MapPageWrapper";
 
 function Chat() {
-  const [input, setInput] = useState();
+  const [pregunta, setPregunta] = useState();
   const [chatLog, setChatLog] = useState([]);
 
   const { socket } = SiteData();
+  const { chatActivo } = MapPageData();
 
-  const enviarRespuesta = () => {
-    setChatLog([...chatLog, input]);
-    socket.emit("client_chat", input);
+  const submitClick = () => {
+    setChatLog([...chatLog, pregunta]);
+    socket.emit("client_addQuestion", {
+      pregunta: pregunta,
+      chatActivo: chatActivo,
+    });
+  };
+
+  const receiveMessage = (data) => {
+    setChatLog((state) => [...state, data]);
   };
 
   useEffect(() => {
@@ -21,34 +30,46 @@ function Chat() {
     };
   }, []);
 
-  const receiveMessage = (data) => {
-    setChatLog((state) => [...state, data]);
-  };
-
   return (
-    <div className="chat-container">
-      <input
-        className="input"
-        placeholder="Escribe aqui"
-        type="text"
-        id="input"
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button className="button" onClick={enviarRespuesta}>
-        Enviar
-      </button>
-      <div className="message-container">
-        ¡Hola Soy tu ChatBot! Puedo ayudarte a encontrar los mejores (Lugares,
-        Playas, Lagos) de México según tus gustos. Puedes probar con 'Dime una
-        playa cálida' o 'Dime que lugar cerca del centro de Jalisco puedo
-        visitar'
+    <div className={styles.chatContainer}>
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.input}
+          placeholder="Escribe aqui"
+          type="text"
+          id="pregunta"
+          onChange={(e) => setPregunta(e.target.value)}
+        />
+        <button className={styles.button} onClick={submitClick}>
+          Enviar
+        </button>
+        {chatActivo}
       </div>
-      <div id="chat-log">
-        <ul>
+
+      <div className={styles.dialogContainer}>
+        <div className={styles.messageContainer}>
+          ¡Hola Soy tu ChatBot! Puedo ayudarte a encontrar los mejores (Lugares,
+          Playas, Lagos) de México según tus gustos. Puedes probar con 'Dime una
+          playa cálida' o 'Dime que lugar cerca del centro de Jalisco puedo
+          visitar'
+        </div>
+        <div className={styles.chatlog} id="chat-log">
           {chatLog.map((message, index) => (
-            <li key={index}>{message}</li>
+            <p
+              key={index}
+              style={{
+                backgroundColor: "lightslategrey",
+                borderRadius: "0.5rem",
+                padding: "0.5rem",
+              }}
+              className={`${styles.prueba} ${
+                index % 2 === 0 ? styles.non : styles.par
+              } `}
+            >
+              {index % 2 === 0 ? `You: ${message}` : `Bot: ${message}`}
+            </p>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
