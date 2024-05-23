@@ -17,7 +17,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
-    origin: "https://proyecto-modular-client.vercel.app",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
