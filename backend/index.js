@@ -13,6 +13,10 @@ connectDB();
 
 const app = express();
 app.use(cors());
+app.get("/", function (req, res) {
+  res.send("<h1>BackEnd - Proyecto Modularr</h1>");
+  res.end();
+});
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
