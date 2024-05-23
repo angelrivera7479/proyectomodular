@@ -12,19 +12,8 @@ import connectDB from "./config/db.js";
 connectDB();
 
 const app = express();
-// Add headers before the routes are defined
-const allowedOrigins = ["https://proyecto-modular-client.vercel.app"];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-app.use(cors(corsOptions));
+app.use(cors());
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {

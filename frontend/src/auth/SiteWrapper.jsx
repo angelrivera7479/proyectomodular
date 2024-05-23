@@ -2,7 +2,10 @@ import { createContext, useContext, useState } from "react";
 const SiteContext = createContext();
 
 import io from "socket.io-client";
-const socket = io.connect("https://proyecto-modular-server.vercel.app/");
+const socket = io("https://proyecto-modular-server.vercel.app/", {
+  withCredentials: true,
+});
+//const socket = io.connect("https://proyecto-modular-server.vercel.app/");
 
 //SiteData sera el objeto donde guardaremos los datos
 export const SiteData = () => useContext(SiteContext);
