@@ -1,11 +1,8 @@
-##Run backend -> yarn start
-##Run frontend -> yarn dev || npm run dev
+Proyecto Modular - Angel, Christian, Zabdiel
 
-- backend modules: colors, dotenv, express, socket.io, mongoose, nodemon
-- frontend: npm init vite frontend. modules:
+Recomendacion de destinos turisticos a través de chat con sistema experto
 
-- Cosas por Hacer
+##Run backend -> cd backend/ -> yarn start ##Run frontend -> cd frontend/ -> yarn dev
 
-- Identificar funcionalidades de panel de administrador - listo
-- Creacion de rutas para paginas de administrador
-- Crear rutas protegidas para diferencias entre admin y usuario
+    backend modules: colors, dotenv, express, socket.io, mongoose, nodemon
+    frontend modules: react-router-dom, react-svg-map, socket.io-client
