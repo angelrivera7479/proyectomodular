@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-import http from "http";
+import { http } from "http";
 import { Server as SocketServer } from "socket.io";
 import colors from "colors";
 import cors from "cors";
@@ -16,8 +16,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
-    origin: "https://proyecto-modular-client.vercel.app",
-    methods: ["GET", "POST"],
+    origin: "*",
   },
 });
 
