@@ -7,15 +7,19 @@ function Chat() {
   const [pregunta, setPregunta] = useState();
   const [chatLog, setChatLog] = useState([]);
 
-  const { socket } = SiteData();
+  const { user, socket } = SiteData();
   const { chatActivo } = MapPageData();
 
   const submitClick = () => {
     setChatLog([...chatLog, pregunta]);
-    socket.emit("client_addQuestion", {
-      pregunta: pregunta,
-      chatActivo: chatActivo,
-    });
+    if (user) {
+      socket.emit("client_addQuestion", {
+        pregunta: pregunta,
+        chatActivo: chatActivo,
+      });
+    } else {
+      socket.emit("questionWOUser", pregunta);
+    }
   };
 
   const receiveMessage = (data) => {

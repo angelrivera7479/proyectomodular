@@ -46,6 +46,11 @@ const handleChatEvents = (socket) => {
 
     socket.emit("server_chat", respuesta);
   });
+
+  socket.on("questionWOUser", (pregunta) => {
+    const respuesta = obtenerRespuesta(pregunta);
+    socket.emit("server_chat", respuesta);
+  });
 };
 
 export default handleChatEvents;
