@@ -2,37 +2,41 @@ import { useState, useEffect } from "react";
 import styles from "./index.module.css";
 import { SiteData } from "../../auth/SiteWrapper";
 import { MapPageData } from "../MapPageWrapper";
+import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
 
 function Chat() {
   const [pregunta, setPregunta] = useState();
-  const [chatLog, setChatLog] = useState([]);
+  const [questionsList, setQuestionsList] = useState([]);
 
-  const { user, socket } = SiteData();
+  const { socket, user } = SiteData();
   const { chatActivo } = MapPageData();
 
+  useEffect(() => {
+    if (chatActivo) {
+      socket.emit("client_getQuestionsList", chatActivo);
+
+      socket.on("server_getQuestionsList", (serverQuestionslist) => {
+        setQuestionsList(serverQuestionslist);
+      });
+    } else {
+      setQuestionsList([]);
+    }
+
+    return () => {
+      socket.off("server_getQuestionsList", chatActivo);
+    };
+  }, [chatActivo]);
+
   const submitClick = () => {
-    setChatLog([...chatLog, pregunta]);
     if (user) {
       socket.emit("client_addQuestion", {
-        pregunta: pregunta,
         chatActivo: chatActivo,
+        pregunta: pregunta,
       });
     } else {
       socket.emit("questionWOUser", pregunta);
     }
   };
-
-  const receiveMessage = (data) => {
-    setChatLog((state) => [...state, data]);
-  };
-
-  useEffect(() => {
-    socket.on("server_chat", receiveMessage);
-
-    return () => {
-      socket.off("server_chat", receiveMessage);
-    };
-  }, []);
 
   return (
     <div className={styles.chatContainer}>
@@ -47,7 +51,6 @@ function Chat() {
         <button className={styles.button} onClick={submitClick}>
           Enviar
         </button>
-        {chatActivo}
       </div>
 
       <div className={styles.dialogContainer}>
@@ -57,26 +60,41 @@ function Chat() {
           playa cálida' o 'Dime que lugar cerca del centro de Jalisco puedo
           visitar'
         </div>
-        <div className={styles.chatlog} id="chat-log">
-          {chatLog.map((message, index) => (
-            <p
-              key={index}
-              style={{
-                backgroundColor: "lightslategrey",
-                borderRadius: "0.5rem",
-                padding: "0.5rem",
-              }}
-              className={`${styles.prueba} ${
-                index % 2 === 0 ? styles.non : styles.par
-              } `}
-            >
-              {index % 2 === 0 ? `You: ${message}` : `Bot: ${message}`}
-            </p>
-          ))}
-        </div>
+      </div>
+      <div className={styles.questionsListContainer}>
+        {questionsList.map((element, index) => (
+          <div key={index} style={{ border: "1px solid pink" }}>
+            <p>{element.question}</p>
+            <p>{element.answer}</p>
+            <input type="radio" name="score" id="good" />
+            <FaThumbsUp style={{ color: "green" }} />
+            <input type="radio" name="score" id="bad" />
+            <FaThumbsDown style={{ color: "red" }} />
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
 export default Chat;
+
+{
+  /* <div className={styles.chatlog} id="chat-log">
+  {chatLog.map((message, index) => (
+    <p
+      key={index}
+      style={{
+        backgroundColor: "lightslategrey",
+        borderRadius: "0.5rem",
+        padding: "0.5rem",
+      }}
+      className={`${styles.prueba} ${
+        index % 2 === 0 ? styles.non : styles.par
+      } `}
+    >
+      {index % 2 === 0 ? `You: ${message}` : `Bot: ${message}`}
+    </p>
+  ))}
+</div>; */
+}
