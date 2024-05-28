@@ -12,6 +12,6 @@
 }
 .location:focus,
 .location:hover {
-  fill: crimson;
+  fill: #8a6fff;
   outline: 0;
 }

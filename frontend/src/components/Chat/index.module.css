@@ -1,9 +1,10 @@
 .chatContainer {
   width: 100%;
   height: 100%;
-  background-color: darkslategrey;
-  border-radius: 1rem;
+  background-color: #202020;
+
   padding: 0.5rem;
+  overflow-y: scroll;
 }
 
 .input {
@@ -19,20 +20,20 @@
   width: 100%;
   margin-top: 1rem;
   border-radius: 0.5rem;
-  color: lightgray;
-  background-color: blue;
+  color: black;
+  background-color: lightslategray;
   transition: 500ms;
   padding: 0.5rem;
 }
 
 .button:hover {
-  color: blue;
+  color: black;
   background-color: lightgray;
   transition: 500ms;
 }
 .button:active {
-  color: lightgray;
-  background-color: blue;
+  color: dark;
+  background-color: lightslategray;
 }
 
 .messageContainer {
@@ -40,21 +41,6 @@
   color: white;
   text-align: justify;
 }
-.chatlog {
-  height: 300px;
-  overflow: hidden;
-  overflow-y: scroll;
-  color: lightgoldenrodyellow;
-  text-align: justify;
-}
 
-.prueba {
-  background-color: lightslategrey;
-}
-
-.non {
-  color: black;
-}
-.par {
-  color: black;
+.questionsListContainer {
 }

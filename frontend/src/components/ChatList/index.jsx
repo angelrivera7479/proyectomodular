@@ -20,6 +20,7 @@ function index() {
     } else {
       setChatList([]);
     }
+
     return () => {
       socket.off("server_chatList", user);
     };

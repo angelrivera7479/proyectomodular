@@ -53,7 +53,7 @@ export default function index() {
       <div className={styles.bottomSection}>
         {user ? (
           <>
-            <div>
+            <div style={{ color: "white" }}>
               {user.username}
               {user.roles.includes("admin") ? (
                 <Link to="/admin">
