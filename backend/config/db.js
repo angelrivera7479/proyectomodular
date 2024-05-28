@@ -9,7 +9,7 @@ const connectDB = async () => {
   try {
     const conn = await mongoose.connect(MONGO_URI);
     console.log(
-      colors.magenta.underline(`MongoDB connected: ${conn.connection.host}`)
+      colors.magenta.underline(`MongoDB conectado: ${conn.connection.host}`)
     );
   } catch (error) {
     console.log("Error: ", error);
