@@ -41,25 +41,6 @@
   color: white;
   text-align: justify;
 }
-.chatlog {
-  height: 300px;
-  overflow: hidden;
-  overflow-y: scroll;
-  color: lightgoldenrodyellow;
-  text-align: justify;
-}
-
-.prueba {
-  background-color: lightslategrey;
-}
-
-.non {
-  color: black;
-}
-.par {
-  color: black;
-}
 
 .questionsListContainer {
-  overflow: hidden;
 }

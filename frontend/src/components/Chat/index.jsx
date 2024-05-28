@@ -63,9 +63,9 @@ function Chat() {
       </div>
       <div className={styles.questionsListContainer}>
         {questionsList.map((element, index) => (
-          <div key={index} style={{ border: "1px solid pink" }}>
-            <p>{element.question}</p>
-            <p>{element.answer}</p>
+          <div key={index} style={{ border: "1px solid darkslategray" }}>
+            <p style={{ color: "white" }}>{element.question}</p>
+            <p style={{ color: "white" }}>{element.answer}</p>
             <input type="radio" name="score" id="good" />
             <FaThumbsUp style={{ color: "green" }} />
             <input type="radio" name="score" id="bad" />
