@@ -10,7 +10,7 @@ function SigninPage() {
     <>
       <div className={styles.mainContainer}>
         <img
-          src="http://www.cusur.udg.mx/es/sites/default/files/manual_de_estilo/logos/udeg/logo_udeg_blanco_horizontal_sin%20benemerita%203.png"
+          src={new URL(`../imagenes/udg_logo.png`, import.meta.url).href}
           className={styles.logo}
           alt=""
         />
