@@ -5,6 +5,7 @@ import express from "express";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
 import cors from "cors";
+import { serveFavicon as favicon } from "serve-favicon";
 
 //Conexión con base de datos
 import connectDB from "./config/db.js";
@@ -21,6 +22,7 @@ import { dirname, join } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(join(__dirname, "public")));
+app.use(favicon(join(__dirname, "public", "favicon.ico")));
 
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "public", "index.html"));
