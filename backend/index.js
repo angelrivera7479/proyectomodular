@@ -5,7 +5,7 @@ import express from "express";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
 import cors from "cors";
-import { serveFavicon as favicon } from "serve-favicon";
+import favicon from "serve-favicon";
 
 //Conexión con base de datos
 import connectDB from "./config/db.js";
