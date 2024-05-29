@@ -19,11 +19,11 @@ import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(join(__dirname, "public", "index.html"));
 });
 
 const server = http.createServer(app);
