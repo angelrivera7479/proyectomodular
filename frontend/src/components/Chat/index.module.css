@@ -32,7 +32,7 @@
   transition: 500ms;
 }
 .button:active {
-  color: dark;
+  color: black;
   background-color: lightslategray;
 }
 
