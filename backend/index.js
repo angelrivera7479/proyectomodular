@@ -13,11 +13,7 @@ connectDB();
 
 const app = express();
 app.use(cors());
-app.get("/", function (req, res) {
-  res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
-  res.send("<h1>BackEnd - Proyecto Modular 29/05/2024</h1>");
-  res.end();
-});
+
 const server = http.createServer(app);
 
 const io = new SocketServer(server, {
