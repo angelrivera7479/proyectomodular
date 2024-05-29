@@ -14,18 +14,16 @@ const app = express();
 
 app.use(cors());
 
-import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import path from "path";
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get("/", (req, res) => {
   res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
-
-  res.sendFile(path.resolve(__dirname, "index.html"));
-
-  res.end();
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const server = http.createServer(app);
