@@ -69,9 +69,9 @@ async function cargarYProcesarArchivo(archivo, categoria) {
     );
   }
 }
-cargarYProcesarArchivo("./playas.txt", "lugares");
-cargarYProcesarArchivo("./lugares.txt", "playas");
-cargarYProcesarArchivo("./lagos.txt", "lagos");
+//cargarYProcesarArchivo("./playas.txt", "lugares");
+//cargarYProcesarArchivo("./lugares.txt", "playas");
+//cargarYProcesarArchivo("./lagos.txt", "lagos");
 //console.log(bancoDatos);
 
 //Funcion para mostrar mensaje principal
