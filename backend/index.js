@@ -17,12 +17,12 @@ app.use(cors());
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
+//__dirname no funciona igual en ES6
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(join(__dirname, "public")));
 
 app.get("/", (req, res) => {
-  res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
   res.sendFile(join(__dirname, "public", "index.html"));
 });
 
