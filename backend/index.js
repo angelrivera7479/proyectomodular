@@ -14,6 +14,7 @@ connectDB();
 const app = express();
 app.use(cors());
 app.get("/", function (req, res) {
+  res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
   res.send("<h1>BackEnd - Proyecto Modular</h1>");
   res.end();
 });
