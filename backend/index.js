@@ -13,9 +13,14 @@ connectDB();
 const app = express();
 
 app.use(cors());
-app.get("/", function (req, res) {
+
+import path from "path";
+app.get("/", (req, res) => {
   res.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline'");
-  res.send("<h1>BackEnd - Proyecto Modular 29/05/2024</h1>");
+
+  const currentDir = path.resolve();
+  res.sendFile(path.join(currentDir, "index.html"));
+
   res.end();
 });
 
