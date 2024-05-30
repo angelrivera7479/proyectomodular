@@ -14,17 +14,33 @@ const app = express();
 
 app.use(cors());
 
+// import { fileURLToPath } from "url";
+// import { dirname, join } from "path";
+
+// //__dirname no funciona igual en ES6
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// app.use(express.static(join(__dirname, "public")));
+
+// app.get("/", (req, res) => {
+//   res.sendFile(join(__dirname, "public", "index.html"));
+// });
+
+//----------------------------------------------------Deployment
+import path from "path";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
 
-//__dirname no funciona igual en ES6
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "public", "index.html"));
+//Render frontend for any path
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
 });
+
+//----------------------------------------------------Deployment
 
 const server = http.createServer(app);
 const io = new SocketServer(server, {
