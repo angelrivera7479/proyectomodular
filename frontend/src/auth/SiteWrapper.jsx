@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 const SiteContext = createContext();
 
 import io from "socket.io-client";
-const socket = io.connect("https://proyecto-modular-server.vercel.app/", {
+const socket = io.connect("http://localhost:4000", {
   transports: ["websocket"],
 });
 socket.on("connect_error", (err) => {

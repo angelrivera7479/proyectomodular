@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/socket.io": {
-        target: "https://proyecto-modular-server.vercel.app:4000",
+        target: "http://localhost:4000",
         ws: true,
       },
     },

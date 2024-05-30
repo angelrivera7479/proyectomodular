@@ -41,13 +41,15 @@ function procesarLinea(linea, categoria) {
 
 let currentEstado = null;
 import fs from "node:fs";
+
 import { fileURLToPath } from "url";
-import path from "path";
+import { dirname, join } from "path";
+
 async function cargarYProcesarArchivo(archivo, categoria) {
   try {
     let datos;
-    const dirname = path.dirname(fileURLToPath(import.meta.url));
-    const rutaCompleta = path.join(dirname, archivo);
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const rutaCompleta = join(__dirname, archivo);
 
     if (typeof window === "undefined") {
       datos = fs.readFileSync(rutaCompleta, "utf-8");
@@ -69,9 +71,9 @@ async function cargarYProcesarArchivo(archivo, categoria) {
     );
   }
 }
-//cargarYProcesarArchivo("./playas.txt", "lugares");
-//cargarYProcesarArchivo("./lugares.txt", "playas");
-//cargarYProcesarArchivo("./lagos.txt", "lagos");
+cargarYProcesarArchivo("./playas.txt", "lugares");
+cargarYProcesarArchivo("./lugares.txt", "playas");
+cargarYProcesarArchivo("./lagos.txt", "lagos");
 //console.log(bancoDatos);
 
 //Funcion para mostrar mensaje principal
