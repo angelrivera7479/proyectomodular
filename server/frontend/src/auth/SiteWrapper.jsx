@@ -2,9 +2,7 @@ import { createContext, useContext, useState } from "react";
 const SiteContext = createContext();
 
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:4000", {
-  transports: ["websocket"],
-});
+const socket = io.connect("https://pm2-jcr4.onrender.com");
 socket.on("connect_error", (err) => {
   // the reason of the error, for example "xhr poll error"
   console.log(err.message);

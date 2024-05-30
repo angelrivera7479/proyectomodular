@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/socket.io": {
-        target: "http://localhost:4000",
+        target: "https://pm2-jcr4.onrender.com",
         wss: true,
       },
     },
