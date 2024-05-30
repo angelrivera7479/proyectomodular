@@ -3,6 +3,16 @@ const SiteContext = createContext();
 
 import io from "socket.io-client";
 const socket = io.connect("https://proyecto-modular-server.vercel.app");
+socket.on("connect_error", (err) => {
+  // the reason of the error, for example "xhr poll error"
+  console.log(err.message);
+
+  // some additional description, for example the status code of the initial HTTP response
+  console.log(err.description);
+
+  // some additional context, for example the XMLHttpRequest object
+  console.log(err.context);
+});
 
 //SiteData sera el objeto donde guardaremos los datos
 export const SiteData = () => useContext(SiteContext);
