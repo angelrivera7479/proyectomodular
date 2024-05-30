@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "build": "yarn --prefix ./frontend && yarn build --prefix ./frontend && yarn"
+    "build": "npm install --prefix ./frontend && npm run build --prefix ./frontend && npm install"
   },
   "keywords": [],
   "author": "",
