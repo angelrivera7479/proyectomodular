@@ -40,9 +40,13 @@ const handleQuestionEvents = (socket) => {
     //socket.emit("server_chat", respuesta);
   });
 
-  socket.on("questionWOUser", (pregunta) => {
+  socket.on("questionWOUser", async (pregunta) => {
     const respuesta = obtenerRespuesta(pregunta);
-    socket.emit("server_chat", respuesta);
+    const question = await new Question({
+      question: pregunta,
+      answer: respuesta,
+    });
+    socket.emit("server_questionWOUser", question);
   });
 };
 

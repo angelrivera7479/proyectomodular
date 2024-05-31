@@ -13,7 +13,7 @@ const questionSchema = new Schema(
     score: {
       type: Number,
       required: true,
-      default: 50,
+      default: 0,
     },
   },
   {

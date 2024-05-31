@@ -12,7 +12,7 @@ function Chat() {
   const { chatActivo } = MapPageData();
 
   useEffect(() => {
-    if (chatActivo) {
+    if (chatActivo && user) {
       socket.emit("client_getQuestionsList", chatActivo);
 
       socket.on("server_getQuestionsList", (serverQuestionslist) => {
@@ -25,7 +25,7 @@ function Chat() {
     return () => {
       socket.off("server_getQuestionsList", chatActivo);
     };
-  }, [chatActivo]);
+  }, [chatActivo, user]);
 
   const submitClick = () => {
     if (user) {
@@ -36,6 +36,26 @@ function Chat() {
     } else {
       socket.emit("questionWOUser", pregunta);
     }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      socket.on("server_questionWOUser", (data) => {
+        setQuestionsList([...questionsList, data]);
+        console.log(data);
+      });
+    }
+    return () => {
+      socket.off("server_questionWOUser", (data) => {
+        setQuestionsList([...questionsList, data]);
+        console.log(data);
+      });
+    };
+  }, []);
+
+  const handleScore = (id, value) => {
+    console.log(id);
+    console.log(value);
   };
 
   return (
@@ -66,9 +86,21 @@ function Chat() {
           <div key={index} style={{ border: "1px solid darkslategray" }}>
             <p style={{ color: "white" }}>{element.question}</p>
             <p style={{ color: "white" }}>{element.answer}</p>
-            <input type="radio" name="score" id="good" />
+            <p style={{ color: "white" }}>{element._id}</p>
+
+            <input
+              type="radio"
+              name="score"
+              value="good"
+              onChange={(e) => handleScore(element._id, e.target.value)}
+            />
             <FaThumbsUp style={{ color: "green" }} />
-            <input type="radio" name="score" id="bad" />
+            <input
+              type="radio"
+              name="score"
+              value="bad"
+              onChange={(e) => handleScore(element._id, e.target.value)}
+            />
             <FaThumbsDown style={{ color: "red" }} />
           </div>
         ))}
@@ -78,23 +110,3 @@ function Chat() {
 }
 
 export default Chat;
-
-{
-  /* <div className={styles.chatlog} id="chat-log">
-  {chatLog.map((message, index) => (
-    <p
-      key={index}
-      style={{
-        backgroundColor: "lightslategrey",
-        borderRadius: "0.5rem",
-        padding: "0.5rem",
-      }}
-      className={`${styles.prueba} ${
-        index % 2 === 0 ? styles.non : styles.par
-      } `}
-    >
-      {index % 2 === 0 ? `You: ${message}` : `Bot: ${message}`}
-    </p>
-  ))}
-</div>; */
-}
