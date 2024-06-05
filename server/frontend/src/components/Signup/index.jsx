@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { SiteData } from "../../auth/SiteWrapper";
 import { useNavigate } from "react-router-dom";
+import styles from "./index.module.css";
 
 function Signup() {
   const { signup } = SiteData();
@@ -19,7 +20,7 @@ function Signup() {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       Signup
       <input
         placeholder="Username"
@@ -36,7 +37,7 @@ function Signup() {
         onChange={(e) => setFormData({ password: e.target.value })}
       />
       <button onClick={submitHandler}>Registrarse</button>
-    </>
+    </div>
   );
 }
 

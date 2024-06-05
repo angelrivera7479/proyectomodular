@@ -19,7 +19,7 @@ function Login() {
     navigate("/map");
   };
   return (
-    <>
+    <div className={styles.container}>
       Login
       <input
         placeholder="Username"
@@ -36,7 +36,7 @@ function Login() {
         onChange={(e) => setFormData({ password: e.target.value })}
       />
       <button onClick={submitHandler}>Iniciar sesión</button>
-    </>
+    </div>
   );
 }
 
