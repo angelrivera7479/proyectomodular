@@ -48,6 +48,12 @@ const handleQuestionEvents = (socket) => {
     });
     socket.emit("server_questionWOUser", question);
   });
+  //--------------------------------------------Score
+  socket.on("client_changeScore", async ({ id, value }) => {
+    const question = await Question.findById(id);
+    value === "like" ? (question.score = 1) : (question.score = -1);
+    await question.save();
+  });
 };
 
 export default handleQuestionEvents;

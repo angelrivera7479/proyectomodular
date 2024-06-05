@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./index.module.css";
 import { SiteData } from "../../auth/SiteWrapper";
 import { MapPageData } from "../MapPageWrapper";
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
+import QuestionsList from "../QuestionsList";
 
 function Chat() {
   const [pregunta, setPregunta] = useState();
@@ -53,11 +53,6 @@ function Chat() {
     };
   }, []);
 
-  const handleScore = (id, value) => {
-    console.log(id);
-    console.log(value);
-  };
-
   return (
     <div className={styles.chatContainer}>
       <div className={styles.inputContainer}>
@@ -82,28 +77,7 @@ function Chat() {
         </div>
       </div>
       <div className={styles.questionsListContainer}>
-        {questionsList.map((element, index) => (
-          <div key={index} style={{ border: "1px solid darkslategray" }}>
-            <p style={{ color: "white" }}>{element.question}</p>
-            <p style={{ color: "white" }}>{element.answer}</p>
-            <p style={{ color: "white" }}>{element._id}</p>
-
-            <input
-              type="radio"
-              name="score"
-              value="good"
-              onChange={(e) => handleScore(element._id, e.target.value)}
-            />
-            <FaThumbsUp style={{ color: "green" }} />
-            <input
-              type="radio"
-              name="score"
-              value="bad"
-              onChange={(e) => handleScore(element._id, e.target.value)}
-            />
-            <FaThumbsDown style={{ color: "red" }} />
-          </div>
-        ))}
+        <QuestionsList questionsList={questionsList} />
       </div>
     </div>
   );
