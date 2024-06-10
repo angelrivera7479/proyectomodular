@@ -56,7 +56,7 @@ export default function index() {
             <div style={{ color: "white" }}>
               {user.username}
               {user.roles.includes("admin") ? (
-                <Link to="/admin">
+                <Link to="/admin/dashboard">
                   <button>Admin</button>
                 </Link>
               ) : null}

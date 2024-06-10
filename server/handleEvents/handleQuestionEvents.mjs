@@ -9,15 +9,11 @@ const handleQuestionEvents = (socket) => {
   }
 
   socket.on("client_getQuestionsList", async (chatActivo) => {
-    console.log("------------------------------------------------------------");
-    console.log(chatActivo);
     const questionsList = await getQuestionsList(chatActivo);
-    console.log(questionsList);
     socket.emit("server_getQuestionsList", questionsList);
   });
 
   socket.on("client_addQuestion", async ({ chatActivo, pregunta }) => {
-    console.log("clientAddQuestion------------------------------------------");
     //Encontrar chat activo
     const chat = await Chat.findById(chatActivo);
 
@@ -29,7 +25,6 @@ const handleQuestionEvents = (socket) => {
       answer: respuesta,
     });
     await question.save();
-    console.log(question);
 
     //Agregar la nueva pregunta al arreglo de preguntas
     await chat.questions.push(question);

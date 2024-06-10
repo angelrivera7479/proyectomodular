@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Question from "../models/Question.js";
 
 const adminUserEvents = (socket) => {
   socket.on("client_getUsersList", async () => {
@@ -7,6 +8,21 @@ const adminUserEvents = (socket) => {
     console.log(query);
 
     socket.emit("server_getUsersList", query);
+  });
+
+  socket.on("client_getScoreAverage", async () => {
+    //Recuperar preguntas
+    const query = await Question.find();
+
+    //Calcular promedio de scores
+    let promedio = 0;
+    query.map((element) => {
+      promedio += element.score;
+    });
+    promedio = Math.abs(promedio / query.length);
+    //Ajustar promedio para mostrar en circulo
+    promedio = Math.round(promedio * 100);
+    socket.emit("server_getScoreAverage", promedio);
   });
 };
 export default adminUserEvents;

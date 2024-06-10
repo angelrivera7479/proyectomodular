@@ -26,7 +26,6 @@ const Question = ({ element, index }) => {
     <div style={{ border: "1px solid darkslategray" }}>
       <p style={{ color: "white" }}>{element.question}</p>
       <p style={{ color: "white" }}>{element.answer}</p>
-      <p style={{ color: "white" }}>{element._id}</p>
 
       <input
         type="radio"
