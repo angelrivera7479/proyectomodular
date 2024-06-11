@@ -1,5 +1,4 @@
-import User from "../models/User.js";
-import Question from "../models/Question.js";
+import { User, Question } from "../config/db.js";
 
 const adminUserEvents = (socket) => {
   socket.on("client_getUsersList", async () => {

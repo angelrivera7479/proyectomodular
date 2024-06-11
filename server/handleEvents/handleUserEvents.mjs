@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import { User } from "../config/db.js";
 
 const handleUserEvents = (socket) => {
   socket.on("client_login", async (data) => {

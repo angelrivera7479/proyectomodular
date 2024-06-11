@@ -6,10 +6,6 @@ import http from "http";
 import { Server as SocketServer } from "socket.io";
 import cors from "cors";
 
-//Conexión con base de datos
-import connectDB from "./config/db.js";
-connectDB();
-
 const app = express();
 
 app.use(cors());

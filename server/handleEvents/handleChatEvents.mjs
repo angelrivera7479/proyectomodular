@@ -1,4 +1,4 @@
-import Chat from "../models/Chat.js";
+import { Chat } from "../config/db.js";
 
 const handleChatEvents = (socket) => {
   //#region getChatList, addNewChat
