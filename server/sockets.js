@@ -5,7 +5,8 @@ import adminUserEvents from "./handleEvents/adminUserEvents.mjs";
 
 export default (io) => {
   io.on("connection", (socket) => {
-    console.log("Client connected: ", socket.id);
+    let id = socket.id;
+    console.log("Client connected: ", id);
 
     handleUserEvents(socket);
 
@@ -16,7 +17,7 @@ export default (io) => {
     adminUserEvents(socket);
 
     socket.on("disconnect", () => {
-      console.log("Cliente desconectado");
+      console.log("Cliente desconectado: ", id);
     });
   });
 

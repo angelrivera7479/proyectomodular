@@ -20,23 +20,36 @@ export const SiteData = () => useContext(SiteContext);
 export const SiteWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const handleUserData = (data) => {
+    setUser(data);
+    data.roles.includes("admin") ? socket.emit("join-admin-room") : null;
+  };
+
   const login = (loginData) => {
     socket.emit("client_login", loginData);
-
-    socket.on("server_login", (data) => {
-      setUser(data);
-    });
   };
 
-  const logout = () => {
-    setUser(null);
-  };
+  useEffect(() => {
+    socket.on("server_login", handleUserData);
+    return () => {
+      socket.off("server_login");
+    };
+  }, []);
 
   const signup = (signupData) => {
     socket.emit("client_signup", signupData);
-    socket.on("server_signup", (data) => {
-      setUser(data);
-    });
+  };
+
+  useEffect(() => {
+    socket.on("server_signup", handleUserData);
+    return () => {
+      socket.off("server_signup");
+    };
+  }, []);
+
+  const logout = () => {
+    user.roles.includes("admin") ? socket.emit("leave-admin-room") : null;
+    setUser(null);
   };
 
   return (

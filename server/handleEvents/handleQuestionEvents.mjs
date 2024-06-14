@@ -32,7 +32,7 @@ const handleQuestionEvents = (socket) => {
 
     const questionsList = await getQuestionsList(chatActivo);
     socket.emit("server_getQuestionsList", questionsList);
-    //socket.emit("server_chat", respuesta);
+    socket.to("admins").emit("to-admins");
   });
 
   socket.on("questionWOUser", async (pregunta) => {
@@ -48,6 +48,7 @@ const handleQuestionEvents = (socket) => {
     const question = await Question.findById(id);
     value === "like" ? (question.score = 1) : (question.score = -1);
     await question.save();
+    socket.to("admins").emit("to-admins");
   });
 };
 

@@ -1,22 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteData } from "../../../auth/SiteWrapper";
 
 function ListUsers() {
   const { socket } = SiteData();
   const [usersList, setUsersList] = useState([]);
 
-  const handleClick = () => {
+  useEffect(() => {
     socket.emit("client_getUsersList");
+  }, []);
 
-    socket.on("server_getUsersList", (data) => {
-      setUsersList(data);
-    });
+  const handleGetUsersList = (data) => {
+    setUsersList(data);
   };
+
+  useEffect(() => {
+    socket.on("server_getUsersList", handleGetUsersList);
+    return () => {
+      socket.off("server_getUsersList", handleGetUsersList);
+    };
+  }, []);
 
   return (
     <>
       Listado de Usuarios
-      <button onClick={handleClick}>Cargar</button>
       {usersList.map((element, index) => (
         <div key={index}>
           --------------------------

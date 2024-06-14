@@ -1,27 +1,38 @@
 import { User, Question } from "../config/db.js";
 
 const adminUserEvents = (socket) => {
+  //#region join/leave admin room
+  socket.on("join-admin-room", () => {
+    socket.join("admins");
+    console.log("Añadido a admins: ", socket.id);
+  });
+
+  socket.on("leave-admin-room", () => {
+    socket.leave("admins");
+    console.log("Borrado de admins: ", socket.id);
+  });
+  //#endregion
+
   socket.on("client_getUsersList", async () => {
     //Data es un objeto con los atributos username y password
     const query = await User.find({ active: true }).select("username roles");
-    console.log(query);
 
     socket.emit("server_getUsersList", query);
   });
 
-  socket.on("client_getScoreAverage", async () => {
-    //Recuperar preguntas
+  socket.on("client_getQuestionsInfo", async () => {
     const query = await Question.find();
-
-    //Calcular promedio de scores
-    let promedio = 0;
-    query.map((element) => {
-      promedio += element.score;
+    let positives = [],
+      negatives = [],
+      noScore = [];
+    query.map((i) => {
+      i.score === 1
+        ? positives.push(i)
+        : i.score === -1
+        ? negatives.push(i)
+        : noScore.push(i);
     });
-    promedio = Math.abs(promedio / query.length);
-    //Ajustar promedio para mostrar en circulo
-    promedio = Math.round(promedio * 100);
-    socket.emit("server_getScoreAverage", promedio);
+    socket.emit("server_getQuestionsInfo", positives, negatives, noScore);
   });
 };
 export default adminUserEvents;
