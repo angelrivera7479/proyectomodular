@@ -7,10 +7,9 @@ import MapPage from "./Pages/MapPage";
 import SigninPage from "./Pages/SigninPage";
 
 import ActiveChats from "./components/adminComponents/ActiveChats";
-import AddUsers from "./components/adminComponents/AddUsers";
 import Dashboard from "./components/adminComponents/Dashboard";
-import InactiveChats from "./components/adminComponents/InactiveChats";
 import ListUsers from "./components/adminComponents/ListUsers";
+import ExpertSystem from "./components/adminComponents/ExpertSystem";
 
 function App() {
   const { user } = SiteData();
@@ -34,18 +33,8 @@ function App() {
           >
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="users-list" element={<ListUsers />} />
-            <Route path="users-add" element={<AddUsers />} />
-            <Route path="chats-active" element={<ActiveChats />} />
-            <Route path="chats-inactive" element={<InactiveChats />} />
-            <Route path="attribute-add" element={<div>attributeadd</div>} />
-            <Route
-              path="attribute-modify"
-              element={<div>attributemodify</div>}
-            />
-            <Route
-              path="attribute-remove"
-              element={<div>attributeremove</div>}
-            />
+            <Route path="chats" element={<ActiveChats />} />
+            <Route path="expert-system" element={<ExpertSystem />} />
           </Route>
         </Routes>
       </Router>
