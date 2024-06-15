@@ -39,7 +39,9 @@ export default function index() {
         </button>
         <div className={styles.logoParent}>
           <img
-            src={new URL(`../../imagenes/udg_logo.png`, import.meta.url).href}
+            src={
+              new URL(`../../../imagenes/udg_logo.png`, import.meta.url).href
+            }
             className={styles.logo}
             alt=""
           />
