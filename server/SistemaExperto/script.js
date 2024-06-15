@@ -71,8 +71,8 @@ async function cargarYProcesarArchivo(archivo, categoria) {
     );
   }
 }
-cargarYProcesarArchivo("./playas.txt", "lugares");
-cargarYProcesarArchivo("./lugares.txt", "playas");
+cargarYProcesarArchivo("./playas.txt", "playas");
+cargarYProcesarArchivo("./lugares.txt", "lugares");
 cargarYProcesarArchivo("./lagos.txt", "lagos");
 //console.log(bancoDatos);
 
