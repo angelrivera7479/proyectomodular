@@ -3,13 +3,13 @@ import { SVGMap } from "react-svg-map";
 import "./styles/mapStyle.css";
 
 import { useState } from "react";
-import InfoCard from "../components/Infocard";
+import InfoCard from "../components/clientComponents/Infocard";
 import Estados from "../utils/Estados";
-import Chat from "../components/Chat";
-import Sidebar from "../components/Sidebar";
+import Chat from "../components/clientComponents/Chat";
+import Sidebar from "../components/clientComponents/Sidebar";
 
 import styles from "./styles/mapPage.module.css";
-import { MapPageWrapper } from "../components/MapPageWrapper";
+import { MapPageWrapper } from "../components/clientComponents/MapPageWrapper";
 
 export default function MapPage() {
   const [estado, setEstado] = useState();

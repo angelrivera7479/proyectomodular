@@ -1,5 +1,5 @@
-import Login from "../components/Login";
-import Signup from "../components/Signup";
+import Login from "../components/clientComponents/Login";
+import Signup from "../components/clientComponents/Signup";
 import { useState } from "react";
 import styles from "./styles/signinpage.module.css";
 
