@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import styles from "./index.module.css";
 import ChatList from "../ChatList";
 

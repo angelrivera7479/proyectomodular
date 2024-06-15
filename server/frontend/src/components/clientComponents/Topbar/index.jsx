@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import styles from "./index.module.css";
 
 function Topbar() {

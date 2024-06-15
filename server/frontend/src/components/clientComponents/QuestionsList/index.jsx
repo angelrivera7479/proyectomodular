@@ -1,5 +1,5 @@
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import { useState, useEffect } from "react";
 
 const Question = ({ element, index }) => {

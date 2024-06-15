@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import styles from "./index.module.css";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { MapPageData } from "../MapPageWrapper";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./index.module.css";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import { MapPageData } from "../MapPageWrapper";
 import QuestionsList from "../QuestionsList";
 

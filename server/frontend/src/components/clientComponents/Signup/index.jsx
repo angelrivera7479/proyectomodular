@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { SiteData } from "../../auth/SiteWrapper";
+import { SiteData } from "../../../auth/SiteWrapper";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 

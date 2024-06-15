@@ -1,4 +1,4 @@
-import { getImageUrl } from "../../utils/image-util";
+import { getImageUrl } from "../../../utils/image-util";
 import styles from "./index.module.css";
 
 export default function InfoCard({ estado, callback }) {
