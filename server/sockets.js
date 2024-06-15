@@ -2,6 +2,8 @@ import handleUserEvents from "./handleEvents/handleUserEvents.mjs";
 import handleChatEvents from "./handleEvents/handleChatEvents.mjs";
 import handleQuestionEvents from "./handleEvents/handleQuestionEvents.mjs";
 import adminUserEvents from "./handleEvents/adminUserEvents.mjs";
+import handleUbicacionEvents from "./handleEvents/BDSistemaExperto/handleUbicacionEvents.mjs";
+import handleEstadoEvents from "./handleEvents/BDSistemaExperto/handleEstadoEvents.mjs";
 
 export default (io) => {
   io.on("connection", (socket) => {
@@ -15,6 +17,11 @@ export default (io) => {
     handleQuestionEvents(socket);
 
     adminUserEvents(socket);
+
+    //Eventos Sistema Experto
+    handleUbicacionEvents(socket);
+
+    handleEstadoEvents(socket);
 
     socket.on("disconnect", () => {
       console.log("Cliente desconectado: ", id);
