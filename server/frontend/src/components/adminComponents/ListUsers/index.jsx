@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { SiteData } from "../../../auth/SiteWrapper";
-import styles from "./index.module.css";
 
 function ListUsers() {
   const { socket } = SiteData();
