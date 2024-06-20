@@ -42,13 +42,11 @@ function Chat() {
     if (!user) {
       socket.on("server_questionWOUser", (data) => {
         setQuestionsList([...questionsList, data]);
-        console.log(data);
       });
     }
     return () => {
       socket.off("server_questionWOUser", (data) => {
         setQuestionsList([...questionsList, data]);
-        console.log(data);
       });
     };
   }, []);

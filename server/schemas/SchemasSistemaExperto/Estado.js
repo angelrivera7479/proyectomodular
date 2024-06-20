@@ -7,7 +7,19 @@ const estadoSchema = new Schema(
       type: String,
       required: true,
     },
-    ubicaciones: {
+    lugares: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Ubicacion",
+      required: true,
+      default: [],
+    },
+    lagos: {
+      type: [mongoose.SchemaTypes.ObjectId],
+      ref: "Ubicacion",
+      required: true,
+      default: [],
+    },
+    playas: {
       type: [mongoose.SchemaTypes.ObjectId],
       ref: "Ubicacion",
       required: true,

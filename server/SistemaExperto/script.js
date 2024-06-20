@@ -1,104 +1,16 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   // Inicializar el chat cuando la página esté cargada
-//   iniciarChat();
-// });
+let bancoDatos;
 
-// Datos de lugares por estado
-const bancoDatos = {
-  lugares: {},
-  playas: {},
-  lagos: {},
-};
+import FormatDB from "./FormatDB.js";
 
-function procesarLinea(linea, categoria) {
-  //const [, estado] = linea.match(/\|(\w+)\|/) || [];
-  const [, estado] = linea.match(/\|(\w+(?:\s+\w+)*)\|/) || [];
-  const [, nombre, temperatura, ubicacion] =
-    linea.match(/([^|]+)\*(\d+(?:\.\d+)?)\*(\d+(?:\.\d+)?)/) || [];
-  const [, nombreObjeto, temperaturaObjeto, ubicacionObjeto] =
-    linea.match(/([^|]+)\*(\d+(?:\.\d+)?)\*(\d+(?:\.\d+)?)-/) || [];
-
-  if (estado) {
-    // Nuevo estado
-    currentEstado = estado.trim();
-    if (!bancoDatos[categoria][currentEstado]) {
-      bancoDatos[categoria][currentEstado] = [];
-    }
-  } else if (nombreObjeto) {
-    // Nuevo objeto en el estado actual
-    bancoDatos[categoria][currentEstado].push({
-      nombre: nombreObjeto.trim(),
-      temperatura: parseFloat(temperaturaObjeto),
-      ubicacionCentroCiudad: parseFloat(ubicacionObjeto),
-    });
-  } else if (nombre) {
-    // Estado original
-    bancoDatos[categoria][nombre.trim()] = [];
-  } else {
-    console.error(`Error al procesar la línea: ${linea}`);
-  }
-}
-
-let currentEstado = null;
-import fs from "node:fs";
-
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
-
-async function cargarYProcesarArchivo(archivo, categoria) {
+export async function cargarBD() {
   try {
-    let datos;
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    const rutaCompleta = join(__dirname, archivo);
-
-    if (typeof window === "undefined") {
-      datos = fs.readFileSync(rutaCompleta, "utf-8");
-    } else {
-      const respuesta = await fetch(rutaCompleta);
-      datos = await respuesta.text();
-    }
-    //console.log(datos);
-
-    const lineas = datos.split("\n");
-
-    lineas.forEach((linea, index) => {
-      //console.log(`Procesando línea ${index + 1}: ${linea}`);
-      procesarLinea(linea, categoria);
-    });
+    bancoDatos = await FormatDB();
   } catch (error) {
-    console.error(
-      `Error al cargar o procesar el archivo ${archivo}: ${error.message}`
-    );
+    console.log("Error cargando banco de datos: ", error);
   }
 }
-cargarYProcesarArchivo("./playas.txt", "playas");
-cargarYProcesarArchivo("./lugares.txt", "lugares");
-cargarYProcesarArchivo("./lagos.txt", "lagos");
-//console.log(bancoDatos);
+cargarBD();
 
-//Funcion para mostrar mensaje principal
-// function iniciarChat() {
-//   // Puedes hacer configuraciones adicionales aquí si es necesario
-//   mostrarMensaje(
-//     "¡Hola Soy tu ChatBot! \nPuedo ayudarte a encontrar los mejores *(Lugares, Playas, Lagos)= de México según tus gustos. Puedes probar con &'Dime una playa cálida'# o &'Dime que lugar cerca del centro de Jalisco puedo visitar'#"
-//   );
-// }
-// Función para mostrar mensajes en el chat
-// function mostrarMensaje(mensaje) {
-//   const chatLog = document.getElementById("chat-log");
-//   const mensajeDiv = document.createElement("div");
-//   //mensajeDiv.innerHTML = mensaje.replace(/\n/g, '<br>');
-//   mensaje = mensaje
-//     .replace(/&/g, "<em>")
-//     .replace(/\#/g, "</em>")
-//     .replace(/\n/g, "<br>")
-//     .replace(/\*/g, "<strong>")
-//     .replace(/\=/g, "</strong>");
-//   mensajeDiv.innerHTML = mensaje;
-//   chatLog.appendChild(mensajeDiv);
-//   // Desplazar hacia abajo para mostrar el último mensaje
-//   chatLog.scrollTop = chatLog.scrollHeight;
-// }
 //----------------------------------Reglas del Sistema Experto------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const reglasTemperatura = [
   {
@@ -175,7 +87,7 @@ const reglasUbicacion = [
 export default function obtenerRespuesta(userInput) {
   // Manda a llamar a la función de procesamiento de entrada del usuario
   let recomendacion = procesarConsulta(userInput);
-  //console.log(recomendacion);
+
   return recomendacion;
 }
 
@@ -223,7 +135,6 @@ function procesarConsulta(consulta) {
   if (palabrasPermitidas.some((palabra) => consultaMin.includes(palabra))) {
     // Si tiene un sinonimo se remplaza por el estado
     consultaMin = estadosSinonimo(consultaMin);
-    console.log(consultaMin);
   }
   // Verificar si la consulta se refiere a playas o lagos
   if (
@@ -373,12 +284,12 @@ function obtenerInformacionPlaya(consulta) {
       let playasCalientes = playasEnEstado.filter(
         (playa) => playa.temperatura >= clima
       );
-      console.log(playasCalientes);
+
       let hastaQueEncuentreUnEstado = playasCalientes.length;
       while (hastaQueEncuentreUnEstado == 0) {
         estadoAleatorio =
           estadosConPlayas[Math.floor(Math.random() * estadosConPlayas.length)];
-        //console.log(estadoAleatorio);
+
         playasEnEstado = bancoDatos.playas[estadoAleatorio];
         playasCalientes = playasEnEstado.filter(
           (playa) => playa.temperatura >= clima
@@ -404,7 +315,7 @@ function obtenerInformacionPlaya(consulta) {
       while (hastaQueEncuentreUnEstado == 0) {
         estadoAleatorio =
           estadosConPlayas[Math.floor(Math.random() * estadosConPlayas.length)];
-        //console.log(estadoAleatorio);
+
         playasEnEstado = bancoDatos.playas[estadoAleatorio];
         playasFrias = playasEnEstado.filter(
           (playa) => playa.temperatura >= clima
@@ -565,11 +476,10 @@ function obtenerInformacionPlaya(consulta) {
 
 function obtenerInformacionLago(consulta) {
   const pregEstado = buscarEstado(consulta);
-  console.log(pregEstado);
+
   // Implementar lógica para buscar información sobre playas
   const estadoDelObjeto = obtenerEstadoDesdeConsulta(consulta);
-  console.log(estadoDelObjeto);
-  //console.log(estado); //sirve para saber si tenemos un estado cuando el usuario lo escribe
+
   // Utiliza el banco de datos (bancoDatos.playas) para obtener detalles sobre playas
   const lagosEnEstado = bancoDatos.lagos[estadoDelObjeto];
   const clima = aplicarReglasSinonimosClima(consulta);
@@ -588,7 +498,7 @@ function obtenerInformacionLago(consulta) {
       while (hastaQueEncuentreUnEstado == 0) {
         estadoAleatorio =
           estadosConLagos[Math.floor(Math.random() * estadosConLagos.length)];
-        //console.log(estadoAleatorio);
+
         lagosEnEstado = bancoDatos.lagos[estadoAleatorio];
         lagosCalientes = lagosEnEstado.filter(
           (lago) => lago.temperatura >= clima
@@ -614,7 +524,7 @@ function obtenerInformacionLago(consulta) {
       while (hastaQueEncuentreUnEstado == 0) {
         estadoAleatorio =
           estadosConLagos[Math.floor(Math.random() * estadosConLagos.length)];
-        //console.log(estadoAleatorio);
+
         lagosEnEstado = bancoDatos.lagos[estadoAleatorio];
         lagosFrios = lagosEnEstado.filter((lago) => lago.temperatura >= clima);
         hastaQueEncuentreUnEstado = lagosFrios.length;
@@ -644,7 +554,7 @@ function obtenerInformacionLago(consulta) {
     }
   } else {
     // if (lagosEnEstado) SI hay lagos en el estado consultado, recordar que ubicacion aqui si importa, y en sin estado no
-    console.log(clima);
+
     if (clima == 23) {
       //aqui entra si se busco un lago con clima caliente con estado, ejemplo: dime un lago caliente en Jalisco
       const lagosCalientes = lagosEnEstado.filter(
@@ -811,118 +721,6 @@ function buscarEstado(consulta) {
   // Devolver el estado encontrado o 'undefined' si no se encontró ninguno
   return estadoEnConsulta || "undefined";
 }
-
-// function //mostrarEstado(consulta) {
-//   // Array con los nombres de los estados
-//   const estados = [
-//     "aguascalientes",
-//     "baja california norte",
-//     "baja california sur",
-//     "campeche",
-//     "chiapas",
-//     "chihuahua",
-//     "coahuila",
-//     "colima",
-//     "durango",
-//     "estado de mexico",
-//     "guanajuato",
-//     "guerrero",
-//     "hidalgo",
-//     "jalisco",
-//     "michoacan",
-//     "morelos",
-//     "nayarit",
-//     "nuevo leon",
-//     "oaxaca",
-//     "puebla",
-//     "queretaro",
-//     "quintana roo",
-//     "san luis potosi",
-//     "sinaloa",
-//     "sonora",
-//     "tabasco",
-//     "tamaulipas",
-//     "tlaxcala",
-//     "veracruz",
-//     "yucatan",
-//     "zacatecas",
-//     "ciudad de mexico",
-//   ];
-//   // Convertir la consulta a minúsculas para hacer la comparación de manera insensible a mayúsculas
-//   const consultaMinuscula = consulta.toLowerCase();
-//   // Verificar si la consulta incluye alguno de los estados
-//   let estadoEnConsulta = estados.find((estado) =>
-//     consultaMinuscula.includes(estado)
-//   );
-//   //NUEVO ---------------------------------------------
-//   if (estadoEnConsulta !== "undefined") {
-//     if (estadoEnConsulta === "baja california norte") {
-//       document.getElementById("Ventana_BC").style.display = "block";
-//     } else if (estadoEnConsulta === "baja california sur") {
-//       document.getElementById("Ventana_BCS").style.display = "block";
-//     } else if (estadoEnConsulta === "yucatan") {
-//       document.getElementById("Ventana_YUC").style.display = "block";
-//     } else if (estadoEnConsulta === "jalisco") {
-//       document.getElementById("VentanaJAL").style.display = "block";
-//     } else if (estadoEnConsulta === "quintana roo") {
-//       document.getElementById("Ventana_QRO").style.display = "block";
-//     } else if (estadoEnConsulta === "chiapas") {
-//       document.getElementById("VentanaCHI").style.display = "block";
-//     } else if (estadoEnConsulta === "coahuila") {
-//       document.getElementById("VentanaCOA").style.display = "block";
-//     } else if (estadoEnConsulta === "chihuahua") {
-//       document.getElementById("VentanaHUA").style.display = "block";
-//     } else if (estadoEnConsulta === "durango") {
-//       document.getElementById("VentanaDUR").style.display = "block";
-//     } else if (estadoEnConsulta === "sinaloa") {
-//       document.getElementById("VentanaSIN").style.display = "block";
-//     } else if (estadoEnConsulta === "sonora") {
-//       document.getElementById("VentanaSON").style.display = "block";
-//     } else if (estadoEnConsulta === "zacatecas") {
-//       document.getElementById("VentanaZAC").style.display = "block";
-//     } else if (estadoEnConsulta === "nuevo leon") {
-//       document.getElementById("VentanaNL").style.display = "block";
-//     } else if (estadoEnConsulta === "san luis potosi") {
-//       document.getElementById("VentanaSLP").style.display = "block";
-//     } else if (estadoEnConsulta === "tamaulipas") {
-//       document.getElementById("VentanaTAM").style.display = "block";
-//     } else if (estadoEnConsulta === "aguascalientes") {
-//       document.getElementById("VentanaAGU").style.display = "block";
-//     } else if (estadoEnConsulta === "colima") {
-//       document.getElementById("VentanaCOL").style.display = "block";
-//     } else if (estadoEnConsulta === "michoacan") {
-//       document.getElementById("VentanaMICH").style.display = "block";
-//     } else if (estadoEnConsulta === "Nayarit") {
-//       document.getElementById("VentanaNAY").style.display = "block";
-//     } else if (estadoEnConsulta === "campeche") {
-//       document.getElementById("VentanaCAMP").style.display = "block";
-//     } else if (estadoEnConsulta === "oaxaca") {
-//       document.getElementById("VentanaOAX").style.display = "block";
-//     } else if (estadoEnConsulta === "puebla") {
-//       document.getElementById("VentanaPUE").style.display = "block";
-//     } else if (estadoEnConsulta === "tabasco") {
-//       document.getElementById("VentanaTAB").style.display = "block";
-//     } else if (estadoEnConsulta === "tlaxcala") {
-//       document.getElementById("Ventana_TLAX").style.display = "block";
-//     } else if (estadoEnConsulta === "ciudad de mexico") {
-//       document.getElementById("Ventana_CDMX").style.display = "block";
-//     } else if (estadoEnConsulta === "guanajuato") {
-//       document.getElementById("Ventana_GTO").style.display = "block";
-//     } else if (estadoEnConsulta === "guerrero") {
-//       document.getElementById("Ventana_GRR").style.display = "block";
-//     } else if (estadoEnConsulta === "hidalgo") {
-//       document.getElementById("Ventana_HID").style.display = "block";
-//     } else if (estadoEnConsulta === "estado de mexico") {
-//       document.getElementById("Ventana_MEX").style.display = "block";
-//     } else if (estadoEnConsulta === "morelos") {
-//       document.getElementById("Ventana_MOR").style.display = "block";
-//     } else if (estadoEnConsulta === "queretaro") {
-//       document.getElementById("Ventana_QTR").style.display = "block";
-//     } else if (estadoEnConsulta === "veracruz") {
-//       document.getElementById("Ventana_VRZ").style.display = "block";
-//     }
-//   }
-// }
 
 function obtenerEstadoDesdeConsulta(consulta) {
   if (

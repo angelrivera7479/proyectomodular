@@ -19,7 +19,6 @@ function Locations() {
   }, []);
 
   const handleGetLocations = (data) => {
-    console.log(data);
     setLocations(data);
   };
 
@@ -34,7 +33,7 @@ function Locations() {
             <td style={{ backgroundColor: "gray" }}>Ubicacion Centro Ciudad</td>
           </tr>
           {locations.map((element, idx) => (
-            <tr>
+            <tr key={idx}>
               <td>{element.nombre}</td>
               <td>{element.temperatura}</td>
               <td>{element.ubicacionCentroCiudad}</td>

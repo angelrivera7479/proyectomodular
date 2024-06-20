@@ -16,9 +16,7 @@ const ubicacionSchema = new Schema(
       required: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { versionKey: false }
 );
 
 export default ubicacionSchema;

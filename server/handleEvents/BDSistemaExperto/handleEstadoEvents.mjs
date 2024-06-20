@@ -17,5 +17,13 @@ const handleEstadoEvents = (socket) => {
       console.log("La Estado ya existe, ingrese otro");
     }
   });
+
+  socket.on("client_getEstados", async () => {
+    const estados = await Estado.find()
+      .populate("lugares")
+      .populate("playas")
+      .populate("lagos");
+    socket.emit("server_getEstados", estados);
+  });
 };
 export default handleEstadoEvents;
