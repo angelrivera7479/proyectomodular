@@ -11,9 +11,11 @@ function index() {
   const [chatList, setChatList] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      socket.emit("client_chatList", user);
+    if (user) socket.emit("client_chatList", user);
+  }, [user]);
 
+  useEffect(() => {
+    if (user) {
       socket.on("server_chatList", (serverChatList) => {
         setChatList(serverChatList);
       });
@@ -45,7 +47,7 @@ function index() {
           </button>
           <button
             className={styles.deleteChat}
-            onClick={() => alert(`delete: ${chat._id}`)} //Aqui pondriamos el id => chat._id
+            onClick={() => socket.emit("client_deleteChat", chat._id, user)}
           >
             <FaRegTrashCan />
           </button>
@@ -56,24 +58,3 @@ function index() {
 }
 
 export default index;
-
-// {
-//   Estados.map((estado, index) => (
-//     <div className={styles.containerChat} key={index}>
-//       <div className={styles.fecha}>Fecha</div>
-//       <button
-//         onClick={() => alert(`hola: ${index}`)}
-//         className={styles.tituloChat}
-//       >
-//         {estado.id}
-//       </button>
-//       {/* <div>{estado.name}</div> */}
-//       <button
-//         className={styles.deleteChat}
-//         onClick={() => alert(`delete: ${index}`)}
-//       >
-//         <FaRegTrashCan />
-//       </button>
-//     </div>
-//   ));
-// }

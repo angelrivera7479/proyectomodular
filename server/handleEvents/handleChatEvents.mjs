@@ -1,4 +1,4 @@
-import { Chat } from "../config/db.js";
+import { Chat, Question } from "../config/db.js";
 
 const handleChatEvents = (socket) => {
   //#region getChatList, addNewChat
@@ -25,6 +25,16 @@ const handleChatEvents = (socket) => {
   });
 
   //#endregion
+
+  socket.on("client_deleteChat", async (id, user) => {
+    const chat = await Chat.findOneAndDelete({ _id: id }).populate("questions");
+    const questions = chat.questions;
+    questions.map(async (question) => {
+      await Question.findOneAndDelete({ _id: question._id });
+    });
+    const chatList = await getChatList(user);
+    socket.emit("server_chatList", chatList);
+  });
 };
 
 export default handleChatEvents;

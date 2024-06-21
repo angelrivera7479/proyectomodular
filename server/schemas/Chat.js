@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import questionSchema from "./Question.js";
-import userSchema from "./User.js";
+import { Question } from "../config/db.js";
 
 const chatSchema = new Schema(
   {
