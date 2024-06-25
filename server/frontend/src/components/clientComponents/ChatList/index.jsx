@@ -47,7 +47,10 @@ function index() {
           </button>
           <button
             className={styles.deleteChat}
-            onClick={() => socket.emit("client_deleteChat", chat._id, user)}
+            onClick={() => {
+              socket.emit("client_deleteChat", chat._id, user);
+              handleChatActivo(null);
+            }}
           >
             <FaRegTrashCan />
           </button>

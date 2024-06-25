@@ -34,6 +34,7 @@ const handleChatEvents = (socket) => {
     });
     const chatList = await getChatList(user);
     socket.emit("server_chatList", chatList);
+    socket.to("admins").emit("to-admins");
   });
 };
 
