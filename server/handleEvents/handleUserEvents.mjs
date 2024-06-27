@@ -1,38 +1,65 @@
 import { User } from "../config/db.js";
+import bcrypt from "bcryptjs";
+const salt = bcrypt.genSaltSync(10);
 
 const handleUserEvents = (socket) => {
-  socket.on("client_login", async (data) => {
-    //Data es un objeto con los atributos username y password
-    const user = await User.findOne(
-      //Buscamos un usuario que corresponda con la informacion enviada
-      { username: data.username, password: data.password },
-      //Seleccionamos solo los campos username y roles
-      "username roles chats"
-    );
-    //Regresar el usuario al cliente
-    socket.emit("server_login", user);
+  socket.on("client_login", async ({ username, password }) => {
+    try {
+      if (username === "" || password === "") {
+        throw new Error("Se tienen que llenar ambos campos");
+      }
+
+      const searchedUser = await User.findOne({ username: username });
+      const hashedPassword = searchedUser.password;
+
+      const isValid = bcrypt.compareSync(password, hashedPassword);
+
+      if (isValid) {
+        const user = {
+          _id: searchedUser._id,
+          username: searchedUser.username,
+          roles: searchedUser.roles,
+        };
+        socket.emit("server_login", user);
+      } else {
+        throw new Error("Contraseña incorrecta");
+      }
+    } catch (error) {
+      console.log("Error al iniciar sesion: ", error);
+    }
   });
 
   socket.on("client_signup", async ({ username, password }) => {
-    //Revisar que el username este libre
-    const exists = await User.findOne({ username: username }, "username");
-    //Si no existe, lo registramos. Si existe, notificamos que el usuario no es valido
-    if (!exists) {
-      try {
-        const newUser = new User({ username: username, password: password });
-        await newUser.save();
-        const user = {
-          _id: newUser._id,
-          username: newUser.username,
-          roles: newUser.roles,
-        };
-        //Regresar el objeto con el id, username y roles al cliente
-        socket.emit("server_signup", user);
-      } catch (error) {
-        console.log(error);
+    try {
+      if (username === "" || password === "") {
+        throw new Error("Se tienen que llenar ambos campos");
       }
-    } else {
-      console.log("El username ya existe, escoge otro");
+
+      const exists = await User.findOne({ username: username });
+
+      if (!exists) {
+        bcrypt.genSalt(10, function (err, salt) {
+          bcrypt.hash(password, salt, async function (err, hashedPassword) {
+            const newUser = await new User({
+              username: username,
+              password: hashedPassword,
+            });
+
+            await newUser.save();
+            const user = {
+              _id: newUser._id,
+              username: newUser.username,
+              roles: newUser.roles,
+            };
+
+            socket.emit("server_signup", user);
+          });
+        });
+      } else {
+        throw new Error("El usuario ya existe");
+      }
+    } catch (error) {
+      console.log("Error al registrar usuario: ", error);
     }
   });
 };
