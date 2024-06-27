@@ -11,11 +11,14 @@ import Dashboard from "./components/adminComponents/Dashboard";
 import ListUsers from "./components/adminComponents/ListUsers";
 import ExpertSystem from "./components/adminComponents/ExpertSystem";
 
+import { Toaster } from "sonner";
+
 function App() {
   const { user } = SiteData();
   return (
     <>
       <Router>
+        <Toaster position="top-right" richColors closeButton />
         <Routes>
           <Route index element={<MapPage />} />
           <Route path={"/signin"} element={<SigninPage />} />

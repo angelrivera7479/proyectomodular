@@ -67,13 +67,21 @@ function ExpertSystem() {
       <h3>Añadir Ubicacion</h3>
       <select onChange={(e) => setEstadoActivo(e.target.value)}>
         {estadosList.map((element, idx) => (
-          <option value={element.nombre}>{element.nombre}</option>
+          <option key={element.nombre} value={element.nombre}>
+            {element.nombre}
+          </option>
         ))}
       </select>
       <select onChange={(e) => setTipoUbicacionActiva(e.target.value)}>
-        <option value="Playa">Playa</option>
-        <option value="Lugar">Lugar</option>
-        <option value="Lago">Lago</option>
+        <option key={"playa"} value="Playa">
+          Playa
+        </option>
+        <option key={"lugar"} value="Lugar">
+          Lugar
+        </option>
+        <option key={"lago"} value="Lago">
+          Lago
+        </option>
       </select>
       <input
         placeholder="Nombre de la ubicacion"

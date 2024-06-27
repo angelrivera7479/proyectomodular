@@ -43,42 +43,54 @@ function ActiveChats() {
     <>
       <h3>Positivos</h3>
       <table>
-        <tr>
-          <td style={{ backgroundColor: "gray" }}>Pregunta</td>
-          <td style={{ backgroundColor: "gray" }}>Respuesta</td>
-        </tr>
-        {positives.map((element, idx) => (
-          <tr key={idx}>
-            <td>{element.question}</td>
-            <td>{element.answer}</td>
+        <thead>
+          <tr>
+            <td style={{ backgroundColor: "gray" }}>Pregunta</td>
+            <td style={{ backgroundColor: "gray" }}>Respuesta</td>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {positives.map((element, idx) => (
+            <tr key={idx}>
+              <td>{element.question}</td>
+              <td>{element.answer}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <h3>Negativos</h3>
       <table>
-        <tr>
-          <td style={{ backgroundColor: "gray" }}>Pregunta</td>
-          <td style={{ backgroundColor: "gray" }}>Respuesta</td>
-        </tr>
-        {negatives.map((element, idx) => (
-          <tr key={idx}>
-            <td>{element.question}</td>
-            <td>{element.answer}</td>
+        <thead>
+          <tr>
+            <td style={{ backgroundColor: "gray" }}>Pregunta</td>
+            <td style={{ backgroundColor: "gray" }}>Respuesta</td>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {negatives.map((element, idx) => (
+            <tr key={idx}>
+              <td>{element.question}</td>
+              <td>{element.answer}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <h3>No Evaluados</h3>
       <table>
-        <tr>
-          <td style={{ backgroundColor: "gray" }}>Pregunta</td>
-          <td style={{ backgroundColor: "gray" }}>Respuesta</td>
-        </tr>
-        {noScore.map((element, idx) => (
-          <tr key={idx}>
-            <td>{element.question}</td>
-            <td>{element.answer}</td>
+        <thead>
+          <tr>
+            <td style={{ backgroundColor: "gray" }}>Pregunta</td>
+            <td style={{ backgroundColor: "gray" }}>Respuesta</td>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {noScore.map((element, idx) => (
+            <tr key={idx}>
+              <td>{element.question}</td>
+              <td>{element.answer}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </>
   );

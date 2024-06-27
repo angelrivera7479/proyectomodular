@@ -24,22 +24,26 @@ function ListUsers() {
     <>
       Listado de Usuarios
       <table>
-        <tr>
-          <td style={{ backgroundColor: "gray" }}>Nombre de Usuario</td>
-          <td style={{ backgroundColor: "gray" }}>Roles</td>
-        </tr>
-        {usersList.map((element, index) => (
-          <tr key={index}>
-            <td>{element.username}</td>
-            <td>
-              {element.roles.map((role, idx) => (
-                <>
-                  <div key={idx}>{role}</div>
-                </>
-              ))}
-            </td>
+        <thead>
+          <tr>
+            <td style={{ backgroundColor: "gray" }}>Nombre de Usuario</td>
+            <td style={{ backgroundColor: "gray" }}>Roles</td>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {usersList.map((element, index) => (
+            <tr key={index}>
+              <td>{element.username}</td>
+              <td>
+                {element.roles.map((role, idx) => (
+                  <>
+                    <div key={idx}>{role}</div>
+                  </>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </>
   );

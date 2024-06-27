@@ -5,13 +5,12 @@ const salt = bcrypt.genSaltSync(10);
 const handleUserEvents = (socket) => {
   socket.on("client_login", async ({ username, password }) => {
     try {
-      if (username === "" || password === "") {
-        throw new Error("Se tienen que llenar ambos campos");
+      const searchedUser = await User.findOne({ username: username });
+      if (!searchedUser) {
+        throw new Error("Credenciales incorrectas");
       }
 
-      const searchedUser = await User.findOne({ username: username });
       const hashedPassword = searchedUser.password;
-
       const isValid = bcrypt.compareSync(password, hashedPassword);
 
       if (isValid) {
@@ -22,19 +21,15 @@ const handleUserEvents = (socket) => {
         };
         socket.emit("server_login", user);
       } else {
-        throw new Error("Contraseña incorrecta");
+        throw new Error("Credenciales incorrectas");
       }
     } catch (error) {
-      console.log("Error al iniciar sesion: ", error);
+      socket.emit("error", error.message);
     }
   });
 
   socket.on("client_signup", async ({ username, password }) => {
     try {
-      if (username === "" || password === "") {
-        throw new Error("Se tienen que llenar ambos campos");
-      }
-
       const exists = await User.findOne({ username: username });
 
       if (!exists) {
@@ -59,7 +54,7 @@ const handleUserEvents = (socket) => {
         throw new Error("El usuario ya existe");
       }
     } catch (error) {
-      console.log("Error al registrar usuario: ", error);
+      socket.emit("error", error.message);
     }
   });
 };

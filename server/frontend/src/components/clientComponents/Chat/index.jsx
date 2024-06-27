@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import { SiteData } from "../../../auth/SiteWrapper";
 import { MapPageData } from "../MapPageWrapper";
 import QuestionsList from "../QuestionsList";
+import { toast } from "sonner";
 
 function Chat() {
   const [pregunta, setPregunta] = useState();
@@ -28,13 +29,18 @@ function Chat() {
   }, [chatActivo, user]);
 
   const submitClick = () => {
-    if (user) {
-      socket.emit("client_addQuestion", {
-        chatActivo: chatActivo,
-        pregunta: pregunta,
-      });
+    if (pregunta === "" || pregunta === undefined) {
+      toast.error("Ingrese algo para consultar");
     } else {
-      socket.emit("questionWOUser", pregunta);
+      console.log("Aqui estamos");
+      if (user) {
+        socket.emit("client_addQuestion", {
+          chatActivo: chatActivo,
+          pregunta: pregunta,
+        });
+      } else {
+        socket.emit("questionWOUser", pregunta);
+      }
     }
   };
 

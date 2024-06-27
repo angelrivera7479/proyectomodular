@@ -1,10 +1,11 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { SiteData } from "../../../auth/SiteWrapper";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
+import { toast } from "sonner";
 
 function Signup() {
-  const { signup } = SiteData();
+  const { socket, handleUserData } = SiteData();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useReducer(
@@ -15,9 +16,23 @@ function Signup() {
   );
 
   const submitHandler = () => {
-    signup(formData);
-    navigate("/map");
+    if (formData.username === "" || formData.password === "") {
+      toast.error("Llena ambos campos");
+    } else {
+      socket.emit("client_signup", formData);
+    }
   };
+
+  useEffect(() => {
+    socket.on("server_signup", (user) => {
+      handleUserData(user);
+      navigate("/map");
+    });
+
+    return () => {
+      socket.off("server_signup");
+    };
+  }, []);
 
   return (
     <div className={styles.container}>

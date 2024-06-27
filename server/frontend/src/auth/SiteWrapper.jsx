@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "sonner";
 const SiteContext = createContext();
 
 import io from "socket.io-client";
@@ -23,37 +24,27 @@ export const SiteWrapper = ({ children }) => {
   const handleUserData = (data) => {
     setUser(data);
     data.roles.includes("admin") ? socket.emit("join-admin-room") : null;
+    toast.success(`Bienvenido, ${data.username}`);
   };
-
-  const login = (loginData) => {
-    socket.emit("client_login", loginData);
-  };
-
-  useEffect(() => {
-    socket.on("server_login", handleUserData);
-    return () => {
-      socket.off("server_login");
-    };
-  }, []);
-
-  const signup = (signupData) => {
-    socket.emit("client_signup", signupData);
-  };
-
-  useEffect(() => {
-    socket.on("server_signup", handleUserData);
-    return () => {
-      socket.off("server_signup");
-    };
-  }, []);
 
   const logout = () => {
     user.roles.includes("admin") ? socket.emit("leave-admin-room") : null;
     setUser(null);
   };
 
+  const handleError = (error) => {
+    toast.error(error);
+  };
+
+  useEffect(() => {
+    socket.on("error", handleError);
+    return () => {
+      socket.off("error", handleError);
+    };
+  }, []);
+
   return (
-    <SiteContext.Provider value={{ user, login, logout, signup, socket }}>
+    <SiteContext.Provider value={{ user, handleUserData, logout, socket }}>
       {children}
     </SiteContext.Provider>
   );
