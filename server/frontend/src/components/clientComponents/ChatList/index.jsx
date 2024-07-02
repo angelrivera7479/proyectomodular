@@ -30,7 +30,6 @@ function index() {
 
   return (
     <div>
-      <div style={{ color: "white" }}>ChatList</div>
       {chatList.map((chat, index) => (
         <div className={styles.containerChat} key={index}>
           {/* Aqui iria el updatedAt */}
@@ -38,14 +37,24 @@ function index() {
             {new Date(chat.createdAt).toLocaleString()}
           </div>
           <button
+            title={
+              chat.lastQuestion !== null
+                ? chat.lastQuestion.question
+                : "Nuevo Chat"
+            }
             onClick={() => handleChatActivo(chat._id)}
-            // onClick={() => alert(`hola: ${chat}`)} //Aqui pondriamos el id => chat._id
             className={styles.tituloChat}
           >
-            {index}
-            {/*Aqui pondriamos el texto de la ultima pregunta que se hizo*/}
+            {chat.lastQuestion !== null ? (
+              <div className={styles.lastQuestion}>
+                {chat.lastQuestion.question}
+              </div>
+            ) : (
+              <div className={styles.lastQuestion}>Nuevo Chat</div>
+            )}
           </button>
           <button
+            title="Eliminar chat"
             className={styles.deleteChat}
             onClick={() => {
               socket.emit("client_deleteChat", chat._id, user);

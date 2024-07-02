@@ -14,6 +14,11 @@ const chatSchema = new Schema(
       required: true,
       default: [],
     },
+    lastQuestion: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Question",
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -27,6 +27,14 @@
   cursor: pointer;
   color: black;
 }
+
+.lastQuestion {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 80%;
+}
+
 .deleteChat {
   all: unset;
   color: red;

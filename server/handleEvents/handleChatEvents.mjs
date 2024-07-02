@@ -3,7 +3,10 @@ import { Chat, Question } from "../config/db.js";
 const handleChatEvents = (socket) => {
   //#region getChatList, addNewChat
   async function getChatList(user) {
-    const chatList = await Chat.where("user").equals(user._id);
+    const chatList = await Chat.where("user")
+      .equals(user._id)
+      .populate("questions")
+      .populate("lastQuestion");
     return chatList;
   }
 

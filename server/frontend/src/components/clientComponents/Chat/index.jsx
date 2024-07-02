@@ -32,7 +32,6 @@ function Chat() {
     if (pregunta === "" || pregunta === undefined) {
       toast.error("Ingrese algo para consultar");
     } else {
-      console.log("Aqui estamos");
       if (user) {
         socket.emit("client_addQuestion", {
           chatActivo: chatActivo,
@@ -41,6 +40,7 @@ function Chat() {
       } else {
         socket.emit("questionWOUser", pregunta);
       }
+      setPregunta("");
     }
   };
 
@@ -65,6 +65,7 @@ function Chat() {
           placeholder="Escribe aqui"
           type="text"
           id="pregunta"
+          value={pregunta}
           onChange={(e) => setPregunta(e.target.value)}
         />
         <button className={styles.button} onClick={submitClick}>

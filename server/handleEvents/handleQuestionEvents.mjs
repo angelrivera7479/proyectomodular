@@ -27,6 +27,7 @@ const handleQuestionEvents = (socket) => {
     await question.save();
 
     //Agregar la nueva pregunta al arreglo de preguntas
+    chat.lastQuestion = question;
     await chat.questions.push(question);
     await chat.save();
 
