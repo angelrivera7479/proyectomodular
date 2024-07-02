@@ -3,7 +3,7 @@ import { SiteData } from "../../../auth/SiteWrapper";
 import { useState, useEffect } from "react";
 
 const Question = ({ element, index }) => {
-  const { socket } = SiteData();
+  const { socket, user } = SiteData();
 
   const [selected, setSelected] = useState(null);
 
@@ -18,8 +18,15 @@ const Question = ({ element, index }) => {
   }, [element.score]);
 
   const handleScore = (id, value) => {
-    setSelected(value);
-    socket.emit("client_changeScore", { id: id, value: value });
+    if (user) {
+      console.log("Score con usuario");
+      setSelected(value);
+      socket.emit("client_changeScore", { id: id, value: value });
+    } else {
+      console.log("Score sin usuario");
+      setSelected(value);
+      socket.emit("client_changeScoreGuest", { id: id, value: value });
+    }
   };
 
   return (

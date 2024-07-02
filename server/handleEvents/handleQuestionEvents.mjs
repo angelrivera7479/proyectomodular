@@ -1,4 +1,4 @@
-import { Chat, Question } from "../config/db.js";
+import { Chat, Question, QuestionGuest } from "../config/db.js";
 import obtenerRespuesta from "../SistemaExperto/script.js";
 
 const handleQuestionEvents = (socket) => {
@@ -14,7 +14,9 @@ const handleQuestionEvents = (socket) => {
   });
 
   socket.on("client_addQuestion", async ({ chatActivo, pregunta }) => {
+    console.log("client_addQuestion");
     //Encontrar chat activo
+    console.log(chatActivo);
     const chat = await Chat.findById(chatActivo);
 
     //Preparar respuesta
@@ -36,17 +38,25 @@ const handleQuestionEvents = (socket) => {
     socket.to("admins").emit("to-admins");
   });
 
-  socket.on("questionWOUser", async (pregunta) => {
+  socket.on("client_questionGuest", async (pregunta) => {
     const respuesta = obtenerRespuesta(pregunta);
-    const question = await new Question({
+    const questionGuest = await new QuestionGuest({
       question: pregunta,
       answer: respuesta,
     });
-    socket.emit("server_questionWOUser", question);
+    questionGuest.save();
+    socket.emit("server_questionGuest", questionGuest);
+    socket.to("admins").emit("to-admins");
   });
   //--------------------------------------------Score
   socket.on("client_changeScore", async ({ id, value }) => {
     const question = await Question.findById(id);
+    value === "like" ? (question.score = 1) : (question.score = -1);
+    await question.save();
+    socket.to("admins").emit("to-admins");
+  });
+  socket.on("client_changeScoreGuest", async ({ id, value }) => {
+    const question = await QuestionGuest.findById(id);
     value === "like" ? (question.score = 1) : (question.score = -1);
     await question.save();
     socket.to("admins").emit("to-admins");

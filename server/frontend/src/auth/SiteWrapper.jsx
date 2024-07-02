@@ -32,14 +32,14 @@ export const SiteWrapper = ({ children }) => {
     setUser(null);
   };
 
-  const handleError = (error) => {
+  const showError = (error) => {
     toast.error(error);
   };
 
   useEffect(() => {
-    socket.on("error", handleError);
+    socket.on("error", showError);
     return () => {
-      socket.off("error", handleError);
+      socket.off("error", showError);
     };
   }, []);
 

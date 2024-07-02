@@ -1,4 +1,4 @@
-import { User, Question } from "../config/db.js";
+import { User, Question, QuestionGuest } from "../config/db.js";
 
 const adminUserEvents = (socket) => {
   //#region join/leave admin room
@@ -33,6 +33,26 @@ const adminUserEvents = (socket) => {
         : noScore.push(i);
     });
     socket.emit("server_getQuestionsInfo", positives, negatives, noScore);
+  });
+
+  socket.on("client_getQuestionsGuestInfo", async () => {
+    const query = await QuestionGuest.find();
+    let positivesGuest = [],
+      negativesGuest = [],
+      noScoreGuest = [];
+    query.map((i) => {
+      i.score === 1
+        ? positivesGuest.push(i)
+        : i.score === -1
+        ? negativesGuest.push(i)
+        : noScoreGuest.push(i);
+    });
+    socket.emit(
+      "server_getQuestionsGuestInfo",
+      positivesGuest,
+      negativesGuest,
+      noScoreGuest
+    );
   });
 };
 export default adminUserEvents;

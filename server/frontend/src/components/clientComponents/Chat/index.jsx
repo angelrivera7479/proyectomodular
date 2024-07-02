@@ -6,7 +6,7 @@ import QuestionsList from "../QuestionsList";
 import { toast } from "sonner";
 
 function Chat() {
-  const [pregunta, setPregunta] = useState();
+  const [pregunta, setPregunta] = useState("");
   const [questionsList, setQuestionsList] = useState([]);
 
   const { socket, user } = SiteData();
@@ -38,7 +38,7 @@ function Chat() {
           pregunta: pregunta,
         });
       } else {
-        socket.emit("questionWOUser", pregunta);
+        socket.emit("client_questionGuest", pregunta);
       }
       setPregunta("");
     }
@@ -46,16 +46,14 @@ function Chat() {
 
   useEffect(() => {
     if (!user) {
-      socket.on("server_questionWOUser", (data) => {
+      socket.on("server_questionGuest", (data) => {
         setQuestionsList([...questionsList, data]);
       });
     }
     return () => {
-      socket.off("server_questionWOUser", (data) => {
-        setQuestionsList([...questionsList, data]);
-      });
+      socket.off("server_questionGuest");
     };
-  }, []);
+  }, [user]);
 
   return (
     <div className={styles.chatContainer}>

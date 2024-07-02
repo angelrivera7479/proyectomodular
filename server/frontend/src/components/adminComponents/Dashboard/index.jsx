@@ -17,8 +17,10 @@ function Dashboard() {
   //Cuando se monte el componente, solicitamos el promedio.
   useEffect(() => {
     socket.emit("client_getQuestionsInfo");
+    socket.emit("client_getQuestionsGuestInfo");
   }, []);
 
+  //Users
   const receiveQuestionsInfo = (positives, negatives, noScore) => {
     setPositives(positives);
     setNegatives(negatives);
@@ -38,8 +40,41 @@ function Dashboard() {
     };
   }, []);
 
+  //Guests
+  const [positivesGuest, setPositivesGuest] = useState([]);
+  const [negativesGuest, setNegativesGuest] = useState([]);
+  const [noScoreGuest, setNoScoreGuest] = useState([]);
+  const [positiveValueGuest, setPositiveValueGuest] = useState(0);
+  const [negativeValueGuest, setNegativeValueGuest] = useState(0);
+  const [noScoreValueGuest, setNoScoreValueGuest] = useState(0);
+
+  const receiveQuestionsGuestInfo = (
+    positivesGuest,
+    negativesGuest,
+    noScoreGuest
+  ) => {
+    setPositivesGuest(positivesGuest);
+    setNegativesGuest(negativesGuest);
+    setNoScoreGuest(noScoreGuest);
+
+    let total =
+      positivesGuest.length + negativesGuest.length + noScoreGuest.length;
+
+    setNoScoreValueGuest(((noScoreGuest.length / total) * 100).toFixed(1));
+    setPositiveValueGuest(((positivesGuest.length / total) * 100).toFixed(1));
+    setNegativeValueGuest(((negativesGuest.length / total) * 100).toFixed(1));
+  };
+
+  useEffect(() => {
+    socket.on("server_getQuestionsGuestInfo", receiveQuestionsGuestInfo);
+    return () => {
+      socket.off("server_getQuestionsGuestInfo", receiveQuestionsGuestInfo);
+    };
+  }, []);
+
   const handleUpdateScore = () => {
     socket.emit("client_getQuestionsInfo");
+    socket.emit("client_getQuestionsGuestInfo");
   };
 
   useEffect(() => {
@@ -52,7 +87,8 @@ function Dashboard() {
   return (
     <>
       <h3>
-        Total Evaluados: {noScore.length + positives.length + negatives.length}
+        Preguntas de Usuarios Registrados:{" "}
+        {noScore.length + positives.length + negatives.length}
       </h3>
       <div className={styles.graphsContainer}>
         <div className={styles.module}>
@@ -77,6 +113,37 @@ function Dashboard() {
             key={3}
             value={negativeValue}
             text={`${negativeValue}%`}
+          />
+        </div>
+      </div>
+      <hr />
+      <h3>
+        Preguntas de Invitados:{" "}
+        {noScoreGuest.length + positivesGuest.length + negativesGuest.length}
+      </h3>
+      <div className={styles.graphsContainer}>
+        <div className={styles.module}>
+          <h3>No evaluados: {noScoreGuest.length}</h3>
+          <CircularProgressbar
+            key={1}
+            value={noScoreValueGuest}
+            text={`${noScoreValueGuest}%`}
+          />
+        </div>
+        <div className={styles.module}>
+          <h3>Positivos : {positivesGuest.length}</h3>
+          <CircularProgressbar
+            key={2}
+            value={positiveValueGuest}
+            text={`${positiveValueGuest}%`}
+          />
+        </div>
+        <div className={styles.module}>
+          <h3>Negativos: {negativesGuest.length}</h3>
+          <CircularProgressbar
+            key={3}
+            value={negativeValueGuest}
+            text={`${negativeValueGuest}%`}
           />
         </div>
       </div>
