@@ -54,5 +54,31 @@ const adminUserEvents = (socket) => {
       noScoreGuest
     );
   });
+
+  socket.on("client_getAllQuestions", async () => {
+    let positives = [],
+      negatives = [],
+      noScore = [];
+
+    const usersQuestions = await Question.find();
+    usersQuestions.map((i) => {
+      i.score === 1
+        ? positives.push(i)
+        : i.score === -1
+        ? negatives.push(i)
+        : noScore.push(i);
+    });
+
+    const guestsQuestions = await QuestionGuest.find();
+    guestsQuestions.map((i) => {
+      i.score === 1
+        ? positives.push(i)
+        : i.score === -1
+        ? negatives.push(i)
+        : noScore.push(i);
+    });
+
+    socket.emit("server_getAllQuestions", positives, negatives, noScore);
+  });
 };
 export default adminUserEvents;

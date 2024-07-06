@@ -10,26 +10,26 @@ function ActiveChats() {
 
   const { socket } = SiteData();
 
-  //Cuando se monte el componente, solicitamos el promedio.
+  //Cuando se monte el componente, solicitamos los arreglos.
   useEffect(() => {
-    socket.emit("client_getQuestionsInfo");
+    socket.emit("client_getAllQuestions");
   }, []);
 
-  const receiveQuestionsInfo = (positives, negatives, noScore) => {
+  const receiveAllQuestions = (positives, negatives, noScore) => {
     setPositives(positives);
     setNegatives(negatives);
     setNoScore(noScore);
   };
 
   useEffect(() => {
-    socket.on("server_getQuestionsInfo", receiveQuestionsInfo);
+    socket.on("server_getAllQuestions", receiveAllQuestions);
     return () => {
-      socket.off("server_getQuestionsInfo", receiveQuestionsInfo);
+      socket.off("server_getAllQuestions", receiveAllQuestions);
     };
   }, []);
 
   const handleUpdateScore = () => {
-    socket.emit("client_getQuestionsInfo");
+    socket.emit("client_getAllQuestions");
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ function ActiveChats() {
   return (
     <>
       <h3>Positivos</h3>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <td style={{ backgroundColor: "gray" }}>Pregunta</td>
@@ -59,7 +59,7 @@ function ActiveChats() {
         </tbody>
       </table>
       <h3>Negativos</h3>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <td style={{ backgroundColor: "gray" }}>Pregunta</td>
@@ -76,7 +76,7 @@ function ActiveChats() {
         </tbody>
       </table>
       <h3>No Evaluados</h3>
-      <table>
+      <table className={styles.table}>
         <thead>
           <tr>
             <td style={{ backgroundColor: "gray" }}>Pregunta</td>

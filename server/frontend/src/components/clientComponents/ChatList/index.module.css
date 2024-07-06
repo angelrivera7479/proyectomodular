@@ -1,3 +1,7 @@
+.mainContainer {
+  padding: 0.5rem;
+}
+
 .containerChat {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -11,7 +15,6 @@
 .fecha {
   grid-row: 1/2;
   grid-column: 1/5;
-  overflow-x: scroll;
 }
 .tituloChat {
   all: unset;

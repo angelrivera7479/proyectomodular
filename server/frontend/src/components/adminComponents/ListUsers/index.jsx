@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SiteData } from "../../../auth/SiteWrapper";
+import styles from "./index.module.css";
 
 function ListUsers() {
   const { socket } = SiteData();
@@ -22,8 +23,8 @@ function ListUsers() {
 
   return (
     <>
-      Listado de Usuarios
-      <table>
+      <h3>Usuarios</h3>
+      <table className={styles.table}>
         <thead>
           <tr>
             <td style={{ backgroundColor: "gray" }}>Nombre de Usuario</td>
@@ -31,14 +32,12 @@ function ListUsers() {
           </tr>
         </thead>
         <tbody>
-          {usersList.map((element, index) => (
-            <tr key={index}>
+          {usersList.map((element, userIndex) => (
+            <tr key={`user${userIndex}`}>
               <td>{element.username}</td>
               <td>
-                {element.roles.map((role, idx) => (
-                  <>
-                    <div key={idx}>{role}</div>
-                  </>
+                {element.roles.map((role, roleIndex) => (
+                  <div key={`role${roleIndex}`}>{role}</div>
                 ))}
               </td>
             </tr>

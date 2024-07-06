@@ -1,0 +1,7 @@
+.table {
+  width: 40%;
+}
+
+.table > tbody > tr > td {
+  border: 1px solid gray;
+}

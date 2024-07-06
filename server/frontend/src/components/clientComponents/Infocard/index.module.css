@@ -1,11 +1,11 @@
 .containerCard {
-  width: 60%;
-  height: 100%;
+  width: 20%;
   background-color: white;
   border-radius: 0.5rem;
   position: absolute;
-  right: 0;
-  margin: 0.5rem;
+  right: 20%;
+  top: 0;
+  margin: 1rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;

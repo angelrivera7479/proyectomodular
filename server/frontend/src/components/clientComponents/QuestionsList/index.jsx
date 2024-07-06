@@ -19,11 +19,9 @@ const Question = ({ element, index }) => {
 
   const handleScore = (id, value) => {
     if (user) {
-      console.log("Score con usuario");
       setSelected(value);
       socket.emit("client_changeScore", { id: id, value: value });
     } else {
-      console.log("Score sin usuario");
       setSelected(value);
       socket.emit("client_changeScoreGuest", { id: id, value: value });
     }

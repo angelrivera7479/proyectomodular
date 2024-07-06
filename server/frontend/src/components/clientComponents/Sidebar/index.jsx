@@ -1,76 +1,54 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { SiteData } from "../../../auth/SiteWrapper";
 import styles from "./index.module.css";
+import { SiteData } from "../../../auth/SiteWrapper";
+
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { BiMessageAdd } from "react-icons/bi";
+
 import ChatList from "../ChatList";
+import UserCard from "../UserCard";
 
-import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaRegSquarePlus,
-} from "react-icons/fa6";
-
-export default function index() {
-  const { user, logout, socket } = SiteData();
-
+function index() {
+  const { socket, user } = SiteData();
   const [expanded, setExpanded] = useState(true);
 
   const newChat = () => {
-    if (!user) {
-    } else {
-      socket.emit("client_addNewChat", user);
-    }
+    user ? socket.emit("client_addNewChat", user) : null;
   };
 
   return (
-    <nav className={styles.nav}>
-      <div className={styles.topSection}>
-        <button className={styles.newChatButton} onClick={() => newChat()}>
-          <FaRegSquarePlus />
-        </button>
+    <div className={`${styles.mainContainer} ${expanded ? styles.open : ""}`}>
+      <div className={styles.buttons}>
         <button
-          className={styles.toggleButton}
           onClick={() => {
-            console.log(user);
             setExpanded((current) => !current);
           }}
+          title={expanded ? "Esconder Sidebar" : "Mostrar Sidebar"}
+          className={styles.toggleButton}
         >
           {expanded ? <FaChevronLeft /> : <FaChevronRight />}
         </button>
-        <div className={styles.logoParent}>
-          <img
-            src={
-              new URL(`../../../imagenes/udg_logo.png`, import.meta.url).href
-            }
-            className={styles.logo}
-            alt=""
-          />
-        </div>
+        {user ? (
+          <button
+            onClick={() => newChat()}
+            title="Crear nuevo chat"
+            className={styles.addNewChat}
+          >
+            <BiMessageAdd />
+          </button>
+        ) : null}
       </div>
-
-      <div className={styles.middleSection}>
+      <div>
+        <img
+          src="http://www.cusur.udg.mx/es/sites/default/files/manual_de_estilo/logos/udeg/logo_udeg_blanco_horizontal_sin%20benemerita%203.png"
+          className={styles.logo}
+          alt=""
+        />
         <ChatList />
       </div>
-
-      <div className={styles.bottomSection}>
-        {user ? (
-          <>
-            <div style={{ color: "white" }}>
-              {user.username}
-              {user.roles.includes("admin") ? (
-                <Link to="/admin/dashboard">
-                  <button>Admin</button>
-                </Link>
-              ) : null}
-              <button onClick={logout}>Logout</button>
-            </div>
-          </>
-        ) : (
-          <Link to="/signin">
-            <button>Login</button>
-          </Link>
-        )}
-      </div>
-    </nav>
+      <UserCard />
+    </div>
   );
 }
+
+export default index;

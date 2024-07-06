@@ -1,12 +1,16 @@
-import { useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import { SiteData } from "../../../auth/SiteWrapper";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
 import { toast } from "sonner";
 
-function Signup() {
+function Signup({ handleActivePage }) {
   const { socket, handleUserData } = SiteData();
   const navigate = useNavigate();
+
+  const handlePageChange = () => {
+    handleActivePage("login");
+  };
 
   const [formData, setFormData] = useReducer(
     (olddata, newdata) => {
@@ -34,24 +38,49 @@ function Signup() {
     };
   }, []);
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const checkHandler = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={styles.container}>
-      Signup
+      <h1>Registrar Usuario</h1>
       <input
         placeholder="Username"
         type="text"
         value={formData.username}
         id="username"
         onChange={(e) => setFormData({ username: e.target.value })}
+        className={styles.input}
       />
       <input
         placeholder="Password"
-        type="text"
+        type={showPassword ? "text" : "password"}
         value={formData.password}
         id="password"
         onChange={(e) => setFormData({ password: e.target.value })}
+        className={styles.input}
       />
-      <button onClick={submitHandler}>Registrarse</button>
+      <div className={styles.checkboxContainer}>
+        <input
+          type="checkbox"
+          id="checkbox"
+          checked={showPassword}
+          onChange={checkHandler}
+          className={styles.showPassword}
+        />
+        Mostrar Contraseña
+      </div>
+      <div className={styles.buttonsContainer}>
+        <button onClick={handlePageChange} className={styles.login}>
+          Ya tengo cuenta
+        </button>
+        <button onClick={submitHandler} className={styles.signup}>
+          Registrarse
+        </button>
+      </div>
     </div>
   );
 }
