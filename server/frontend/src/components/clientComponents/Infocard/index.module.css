@@ -1,26 +1,35 @@
 .containerCard {
   width: 20%;
-  background-color: white;
-  border-radius: 0.5rem;
+  background-color: #202020;
+  border-radius: 4px;
   position: absolute;
   right: 20%;
-  top: 0;
-  margin: 1rem;
-  padding: 1rem;
+  top: 1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.containerCard > button {
-  background-color: white;
+  color: white;
 }
 
 .containerCard > img {
-  border-radius: 0.5rem;
-  margin: 0.5rem;
+  border: 1px solid whitesmoke;
+  border-radius: 4px;
+  margin: 4px;
 }
 
 .description {
   overflow-y: scroll;
   text-align: justify;
+}
+
+.close {
+  all: unset;
+  color: gray;
+  font-size: 1.5rem;
+  align-self: flex-end;
+  cursor: pointer;
+}
+.close:focus {
+  outline: 2px solid gray;
 }

@@ -1,6 +1,7 @@
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa6";
 import { SiteData } from "../../../auth/SiteWrapper";
 import { useState, useEffect } from "react";
+import styles from "./index.module.css";
 
 const Question = ({ element, index }) => {
   const { socket, user } = SiteData();
@@ -28,27 +29,43 @@ const Question = ({ element, index }) => {
   };
 
   return (
-    <div style={{ border: "1px solid darkslategray" }}>
-      <p style={{ color: "white" }}>{element.question}</p>
-      <p style={{ color: "white" }}>{element.answer}</p>
+    <>
+      <hr />
+      <div className={styles.dialog}>
+        <div>Tú: {element.question}</div>
+        <div>SE: {element.answer}</div>
+      </div>
 
-      <input
-        type="radio"
-        name={`score-${element._id}`}
-        value="like"
-        checked={selected === "like"}
-        onChange={(e) => handleScore(element._id, e.target.value)}
-      />
-      <FaThumbsUp style={{ color: "green" }} />
-      <input
-        type="radio"
-        name={`score-${element._id}`}
-        value="dislike"
-        checked={selected === "dislike"}
-        onChange={(e) => handleScore(element._id, e.target.value)}
-      />
-      <FaThumbsDown style={{ color: "red" }} />
-    </div>
+      <div className={styles.radioGroup}>
+        <div className={styles.inputContainer}>
+          <input
+            type="radio"
+            name={`score-${element._id}`}
+            value="like"
+            checked={selected === "like"}
+            onChange={(e) => handleScore(element._id, e.target.value)}
+          />
+          <div className={styles.radioTile}>
+            <FaThumbsUp name="buenoIcon" className={styles.faIconThumbsUp} />
+            <label htmlFor="bueno">Bueno</label>
+          </div>
+        </div>
+
+        <div className={styles.inputContainer}>
+          <input
+            type="radio"
+            name={`score-${element._id}`}
+            value="dislike"
+            checked={selected === "dislike"}
+            onChange={(e) => handleScore(element._id, e.target.value)}
+          />
+          <div className={styles.radioTile}>
+            <FaThumbsDown name="maloIcon" className={styles.faIconThumbsDown} />
+            <label htmlFor="malo">Malo</label>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
